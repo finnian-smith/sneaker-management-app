@@ -44,6 +44,7 @@ async function main() {
   try {
     await client.connect();
     await client.query(SQL);
+    console.log("done");
   } catch (error) {
     console.error("Error seeding the database:", error);
   } finally {
