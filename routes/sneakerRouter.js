@@ -1,8 +1,15 @@
 import { Router } from "express";
-import { categoriesListGet } from "../controllers/sneakerController.js";
+import {
+  homepageGet,
+  categoriesListGet,
+  categoriesListPost,
+} from "../controllers/sneakerController.js";
 
 const sneakerRouter = Router();
 
-sneakerRouter.get("/", categoriesListGet);
+sneakerRouter.get("/", homepageGet);
+
+sneakerRouter.get("/category", categoriesListGet);
+sneakerRouter.post("/category/add", categoriesListPost);
 
 export default sneakerRouter;
