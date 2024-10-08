@@ -131,7 +131,8 @@ const db = {
   async addItem(name, brand, price, stock_quantity, category_id, size) {
     try {
       await pool.query(
-        "INSERT INTO item (name, brand, price, stock_quantity, category_id, size) VALUES ($1, $2, $3, $4, $5, $6)",
+        `INSERT INTO item (name, brand, price, stock_quantity, category_id, size)
+        VALUES ($1, $2, $3, $4, $5, $6)`,
         [name, brand, price, stock_quantity, category_id, size]
       );
     } catch (error) {
@@ -142,9 +143,40 @@ const db = {
 
   async editItem(id, name, brand, price, stock_quantity, category_id, size) {
     try {
+      const { rows } = await pool.query("SELECT * FROM item WHERE id = $1", [
+        id,
+      ]);
+
+      if (rows.length === 0) {
+        throw new Error("Item not found");
+      }
+
+      const existingItem = rows[0];
+      const updatedName = name || existingItem.name;
+      const updatedBrand = brand || existingItem.brand;
+      const updatedPrice = price || existingItem.price;
+      const updatedStock = stock_quantity || existingItem.stock_quantity;
+      const updatedCategoryId = category_id || existingItem.category_id;
+      const updatedSize = size || existingItem.size;
+
       await pool.query(
-        "UPDATE item SET name = $2, brand = $3, price = $4, stock_quantity = $5, category_id = $6, size = $7 WHERE id = $1",
-        [id, name, brand, price, stock_quantity, category_id, size]
+        `UPDATE item SET
+        name = $2,
+        brand = $3,
+        price = $4,
+        stock_quantity = $5,
+        category_id = $6,
+        size = $7
+        WHERE id = $1`,
+        [
+          id,
+          updatedName,
+          updatedBrand,
+          updatedPrice,
+          updatedStock,
+          updatedCategoryId,
+          updatedSize,
+        ]
       );
     } catch (error) {
       console.error("Error updating item:", error);

@@ -7,6 +7,7 @@ import {
   categoriesListDelete,
   itemsListGet,
   itemsListPost,
+  itemsListEdit,
 } from "../controllers/sneakerController.js";
 
 const sneakerRouter = Router();
@@ -20,5 +21,6 @@ sneakerRouter.post("/category/delete/:id", categoriesListDelete);
 
 sneakerRouter.get("/item", itemsListGet);
 sneakerRouter.post("/item/add", itemsListPost);
+sneakerRouter.post("/item/edit/:id", itemsListEdit);
 
 export default sneakerRouter;

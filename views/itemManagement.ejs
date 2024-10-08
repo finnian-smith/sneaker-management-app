@@ -55,6 +55,47 @@
             <%= item.name %> / <%= item.brand %> / <%= item.price %> / <%=
             item.stock_quantity %> / <%= item.size %>
           </li>
+          <li>
+            <form action="/item/edit/<%= item.id %>" method="POST">
+              <select name="category_id" id="category_id" required>
+                <option value="" disabled selected>--Select Category--</option>
+                <% categories.forEach((category) => { %>
+                <option value="<%= category.id %>"><%= category.name %></option>
+                <% }) %>
+              </select>
+              <input
+                type="text"
+                name="name"
+                placeholder="New name"
+                value="<%= item.name %>"
+              />
+              <input
+                type="text"
+                name="brand"
+                placeholder="New brand"
+                value="<%= item.brand %>"
+              />
+              <input
+                type="number"
+                name="price"
+                placeholder="New price"
+                value="<%= item.price %>"
+              />
+              <input
+                type="number"
+                name="stock_quantity"
+                placeholder="New stock"
+                value="<%= item.stock_quantity %>"
+              />
+              <input
+                type="text"
+                name="size"
+                placeholder="New size"
+                value="<%= item.size %>"
+              />
+              <button type="submit">Submit Edit</button>
+            </form>
+          </li>
         </ul>
       </li>
       <% }) %>

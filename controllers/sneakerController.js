@@ -101,3 +101,24 @@ export const itemsListPost = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const itemsListEdit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, brand, price, stock_quantity, category_id, size } = req.body;
+    await db.editItem(
+      id,
+      name,
+      brand,
+      price,
+      stock_quantity,
+      category_id,
+      size
+    );
+    console.log("edited item:", id, name);
+    res.redirect("/item");
+  } catch (error) {
+    console.error("Error editing item:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
