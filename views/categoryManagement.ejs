@@ -8,7 +8,6 @@
   <body>
     <h1><%= title %></h1>
 
-    <!-- add new category -->
     <h2>Add New Category</h2>
     <form action="/category/add" method="POST">
       <label for="name">Category Name:</label>
@@ -24,7 +23,6 @@
         <strong><%= category.name %>:</strong>
         <small><%= category.description %></small>
 
-        <!-- edit category -->
         <form action="/category/edit/<%= category.id %>" method="POST">
           <input
             type="text"
@@ -47,5 +45,7 @@
       </li>
       <% }) %>
     </ul>
+
+    <a href="/">Back to Home</a>
   </body>
 </html>
