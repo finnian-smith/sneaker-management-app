@@ -96,6 +96,11 @@
               <button type="submit">Submit Edit</button>
             </form>
           </li>
+          <li>
+            <form action="/item/delete/<%= item.id %>" method="POST">
+              <button type="submit">Delete Item</button>
+            </form>
+          </li>
         </ul>
       </li>
       <% }) %>

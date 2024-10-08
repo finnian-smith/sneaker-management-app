@@ -122,3 +122,15 @@ export const itemsListEdit = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const itemsListDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.deleteItem(id);
+    res.redirect("/item");
+    console.log("deleted item:", id);
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
