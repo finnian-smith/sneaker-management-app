@@ -62,7 +62,10 @@ const db = {
   async getAllItems(limit = 10, offset = 0) {
     try {
       const { rows } = await pool.query(
-        "SELECT * FROM item LIMIT $1 OFFSET $2",
+        `SELECT item.*, category.name AS category_name
+        FROM item
+        INNER JOIN category ON item.category_id = category.id
+        LIMIT $1 OFFSET $2`,
         [limit, offset]
       );
       return rows;
@@ -79,7 +82,7 @@ const db = {
     switch (searchType) {
       case "category":
         sqlQuery = `
-          SELECT * 
+          SELECT item.*, category.name AS category_name 
           FROM item 
           INNER JOIN category ON item.category_id = category.id 
           WHERE category.id = $1 OR category.name ILIKE $2
@@ -90,8 +93,9 @@ const db = {
 
       case "brand":
         sqlQuery = `
-          SELECT * 
+          SELECT item.*, category.name AS category_name 
           FROM item 
+          INNER JOIN category ON item.category_id = category.id
           WHERE brand ILIKE $1 
           LIMIT $2 OFFSET $3
         `;
@@ -100,8 +104,9 @@ const db = {
 
       case "size":
         sqlQuery = `
-          SELECT * 
+          SELECT item.*, category.name AS category_name 
           FROM item 
+          INNER JOIN category ON item.category_id = category.id
           WHERE size LIKE $1 
           LIMIT $2 OFFSET $3
         `;

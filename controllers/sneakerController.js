@@ -61,8 +61,16 @@ export const categoriesListDelete = async (req, res) => {
 };
 
 export const itemsListGet = async (req, res) => {
+  const query = req.query.search || "";
+  const searchType = req.query.searchType || "brand";
+  let items;
+
   try {
-    const items = await db.getAllItems();
+    if (query) {
+      items = await db.getItemsBySearch(query, searchType);
+    } else {
+      items = await db.getAllItems();
+    }
     console.log("items:", items);
 
     if (items.length > 0) {
@@ -77,4 +85,8 @@ export const itemsListGet = async (req, res) => {
     console.error("Error fetching items:", error);
     res.status(500).send("Internal Server Error");
   }
+};
+
+export const itemsListSearchGet = async (req, res) => {
+  console.log(req);
 };

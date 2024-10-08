@@ -8,12 +8,28 @@
   <body>
     <h1><%= title %></h1>
 
+    <form action="/item" method="GET">
+      <input
+        type="text"
+        name="search"
+        id="search"
+        placeholder="Search for items..."
+      />
+      <select name="searchType" id="searchType">
+        <option value="brand">Brand</option>
+        <option value="category">Category</option>
+        <option value="size">Size</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+
     <ul>
       <% items.forEach((item) => { %>
       <li>
-        <strong><%= item.name %>:</strong>
+        <strong><%= item.category_name %>:</strong>
         <ul>
           <li>
+            <p>Name - <%= item.name %></p>
             <p>Brand - <%= item.brand %></p>
             <p>Price - <%= item.price %></p>
             <p>Stock - <%= item.stock_quantity %></p>
