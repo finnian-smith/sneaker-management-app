@@ -8,6 +8,7 @@
   <body>
     <h1><%= title %></h1>
 
+    <h2>Search for Items</h2>
     <form action="/item" method="GET">
       <input
         type="text"
@@ -23,17 +24,36 @@
       <button type="submit">Search</button>
     </form>
 
+    <h2>Add New Item</h2>
+    <form action="/item/add" method="POST">
+      <label for="category_id">Category:</label>
+      <select name="category_id" id="category_id" required>
+        <option value="" disabled selected>--Select Category--</option>
+        <% categories.forEach((category) => { %>
+        <option value="<%= category.id %>"><%= category.name %></option>
+        <% }) %>
+      </select>
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name" />
+      <label for="brand">Brand:</label>
+      <input type="text" name="brand" id="brand" />
+      <label for="price">Price:</label>
+      <input type="number" name="price" id="price" />
+      <label for="stock_quantity">Stock:</label>
+      <input type="number" name="stock_quantity" id="stock_quantity" />
+      <label for="size">Size:</label>
+      <input type="text" name="size" id="size" />
+      <button type="submit">Add Item</button>
+    </form>
+
     <ul>
       <% items.forEach((item) => { %>
       <li>
         <strong><%= item.category_name %>:</strong>
         <ul>
           <li>
-            <p>Name - <%= item.name %></p>
-            <p>Brand - <%= item.brand %></p>
-            <p>Price - <%= item.price %></p>
-            <p>Stock - <%= item.stock_quantity %></p>
-            <p>Size - <%= item.size %></p>
+            <%= item.name %> / <%= item.brand %> / <%= item.price %> / <%=
+            item.stock_quantity %> / <%= item.size %>
           </li>
         </ul>
       </li>

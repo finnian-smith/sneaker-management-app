@@ -66,6 +66,8 @@ export const itemsListGet = async (req, res) => {
   let items;
 
   try {
+    const categories = await db.getAllCategories();
+
     if (query) {
       items = await db.getItemsBySearch(query, searchType);
     } else {
@@ -76,6 +78,7 @@ export const itemsListGet = async (req, res) => {
     if (items.length > 0) {
       res.render("itemManagement", {
         title: "Items",
+        categories: categories,
         items: items,
       });
     } else {
@@ -87,6 +90,14 @@ export const itemsListGet = async (req, res) => {
   }
 };
 
-export const itemsListSearchGet = async (req, res) => {
-  console.log(req);
+export const itemsListPost = async (req, res) => {
+  try {
+    const { name, brand, price, stock_quantity, category_id, size } = req.body;
+    await db.addItem(name, brand, price, stock_quantity, category_id, size);
+    console.log("added new item:", name, brand);
+    res.redirect("/item");
+  } catch (error) {
+    console.error("Error inserting item:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
