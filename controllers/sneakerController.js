@@ -59,3 +59,22 @@ export const categoriesListDelete = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const itemsListGet = async (req, res) => {
+  try {
+    const items = await db.getAllItems();
+    console.log("items:", items);
+
+    if (items.length > 0) {
+      res.render("itemManagement", {
+        title: "Items",
+        items: items,
+      });
+    } else {
+      res.status(404).send("No items found.");
+    }
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
