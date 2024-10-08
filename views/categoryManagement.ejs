@@ -40,6 +40,10 @@
           />
           <button type="submit">Submit Edit</button>
         </form>
+
+        <form action="/category/delete/<%= category.id %>" method="POST">
+          <button type="submit">Delete Category</button>
+        </form>
       </li>
       <% }) %>
     </ul>

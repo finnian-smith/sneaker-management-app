@@ -47,3 +47,15 @@ export const categoriesListEdit = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const categoriesListDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.deleteCategory(id);
+    res.redirect("/category");
+    console.log("deleted category:", id);
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
