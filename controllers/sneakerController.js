@@ -34,3 +34,16 @@ export const categoriesListPost = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+export const categoriesListEdit = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
+    await db.editCategory(id, name, description);
+    console.log("edited category:", id, name, description);
+    res.redirect("/category");
+  } catch (error) {
+    console.error("Error editing category:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};

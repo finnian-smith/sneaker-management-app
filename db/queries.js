@@ -26,9 +26,22 @@ const db = {
 
   async editCategory(id, name, description) {
     try {
+      const { rows } = await pool.query(
+        "SELECT name, description FROM category WHERE id = $1",
+        [id]
+      );
+
+      if (rows.length === 0) {
+        throw new Error("Category not found");
+      }
+
+      const existingCategory = rows[0];
+      const updatedName = name || existingCategory.name;
+      const updatedDescription = description || existingCategory.description;
+
       await pool.query(
         "UPDATE category SET name = $2, description = $3 WHERE id = $1",
-        [id, name, description]
+        [id, updatedName, updatedDescription]
       );
     } catch (error) {
       console.error("Error updating category:", error);
