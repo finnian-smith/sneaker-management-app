@@ -5,12 +5,15 @@ export const homepageGet = async (req, res) => {
 };
 
 export const categoriesListGet = async (req, res) => {
+  const view =
+    req.route.path === "/categories" ? "categories" : "categoryManagement";
+
   try {
     const categories = await db.getAllCategories();
     console.log("categories:", categories);
 
     if (categories.length > 0) {
-      res.render("categoryManagement", {
+      res.render(view, {
         title: "Categories",
         categories: categories,
       });
@@ -28,7 +31,7 @@ export const categoriesListPost = async (req, res) => {
     const { name, description } = req.body;
     await db.addCategory(name, description);
     console.log("added new category:", name, description);
-    res.redirect("/category");
+    res.redirect("/category-management");
   } catch (error) {
     console.error("Error inserting category:", error);
     res.status(500).send("Internal Server Error");
@@ -41,7 +44,7 @@ export const categoriesListEdit = async (req, res) => {
     const { name, description } = req.body;
     await db.editCategory(id, name, description);
     console.log("edited category:", id, name, description);
-    res.redirect("/category");
+    res.redirect("/category-management");
   } catch (error) {
     console.error("Error editing category:", error);
     res.status(500).send("Internal Server Error");
@@ -52,7 +55,7 @@ export const categoriesListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteCategory(id);
-    res.redirect("/category");
+    res.redirect("/category-management");
     console.log("deleted category:", id);
   } catch (error) {
     console.error("Error deleting category:", error);
@@ -61,6 +64,7 @@ export const categoriesListDelete = async (req, res) => {
 };
 
 export const itemsListGet = async (req, res) => {
+  const view = req.route.path === "/items" ? "items" : "itemManagement";
   const query = req.query.search || "";
   const searchType = req.query.searchType || "brand";
   let items;
@@ -76,7 +80,7 @@ export const itemsListGet = async (req, res) => {
     console.log("items:", items);
 
     if (items.length > 0) {
-      res.render("itemManagement", {
+      res.render(view, {
         title: "Items",
         categories: categories,
         items: items,
@@ -95,7 +99,7 @@ export const itemsListPost = async (req, res) => {
     const { name, brand, price, stock_quantity, category_id, size } = req.body;
     await db.addItem(name, brand, price, stock_quantity, category_id, size);
     console.log("added new item:", name, brand);
-    res.redirect("/item");
+    res.redirect("/item-management");
   } catch (error) {
     console.error("Error inserting item:", error);
     res.status(500).send("Internal Server Error");
@@ -116,7 +120,7 @@ export const itemsListEdit = async (req, res) => {
       size
     );
     console.log("edited item:", id, name);
-    res.redirect("/item");
+    res.redirect("/item-management");
   } catch (error) {
     console.error("Error editing item:", error);
     res.status(500).send("Internal Server Error");
@@ -127,7 +131,7 @@ export const itemsListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteItem(id);
-    res.redirect("/item");
+    res.redirect("/item-management");
     console.log("deleted item:", id);
   } catch (error) {
     console.error("Error deleting item:", error);

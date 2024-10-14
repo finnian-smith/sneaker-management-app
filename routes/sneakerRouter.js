@@ -15,14 +15,17 @@ const sneakerRouter = Router();
 
 sneakerRouter.get("/", homepageGet);
 
-sneakerRouter.get("/category", categoriesListGet);
-sneakerRouter.post("/category/add", categoriesListPost);
-sneakerRouter.post("/category/edit/:id", categoriesListEdit);
-sneakerRouter.post("/category/delete/:id", categoriesListDelete);
+sneakerRouter.get("/categories", categoriesListGet);
+sneakerRouter.get("/items", itemsListGet);
 
-sneakerRouter.get("/item", itemsListGet);
-sneakerRouter.post("/item/add", itemsListPost);
-sneakerRouter.post("/item/edit/:id", itemsListEdit);
-sneakerRouter.post("/item/delete/:id", itemsListDelete);
+sneakerRouter.get("/category-management", categoriesListGet);
+sneakerRouter.post("/category-management/add", categoriesListPost);
+sneakerRouter.post("/category-management/edit/:id", categoriesListEdit);
+sneakerRouter.post("/category-management/delete/:id", categoriesListDelete);
+
+sneakerRouter.get("/item-management", itemsListGet);
+sneakerRouter.post("/item-management/add", itemsListPost);
+sneakerRouter.post("/item-management/edit/:id", itemsListEdit);
+sneakerRouter.post("/item-management/delete/:id", itemsListDelete);
 
 export default sneakerRouter;
