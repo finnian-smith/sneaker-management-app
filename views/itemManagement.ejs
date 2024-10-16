@@ -9,7 +9,7 @@
     <h1><%= title %></h1>
 
     <h2>Search for Items</h2>
-    <form action="/item" method="GET">
+    <form action="/item-management" method="GET">
       <input
         type="text"
         name="search"
@@ -25,7 +25,7 @@
     </form>
 
     <h2>Add New Item</h2>
-    <form action="/item/add" method="POST">
+    <form action="/item-management/add" method="POST">
       <label for="category_id">Category:</label>
       <select name="category_id" id="category_id" required>
         <option value="" disabled selected>--Select Category--</option>
@@ -56,7 +56,7 @@
             item.stock_quantity %> / <%= item.size %>
           </li>
           <li>
-            <form action="/item/edit/<%= item.id %>" method="POST">
+            <form action="/item-management/edit/<%= item.id %>" method="POST">
               <select name="category_id" id="category_id" required>
                 <option value="" disabled selected>--Select Category--</option>
                 <% categories.forEach((category) => { %>
@@ -97,7 +97,7 @@
             </form>
           </li>
           <li>
-            <form action="/item/delete/<%= item.id %>" method="POST">
+            <form action="/item-management/delete/<%= item.id %>" method="POST">
               <button type="submit">Delete Item</button>
             </form>
           </li>

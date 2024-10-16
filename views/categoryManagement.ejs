@@ -9,7 +9,7 @@
     <h1><%= title %></h1>
 
     <h2>Add New Category</h2>
-    <form action="/category/add" method="POST">
+    <form action="/category-management/add" method="POST">
       <label for="name">Category Name:</label>
       <input type="text" name="name" id="name" required />
       <label for="description">Description:</label>
@@ -23,7 +23,10 @@
         <strong><%= category.name %>:</strong>
         <small><%= category.description %></small>
 
-        <form action="/category/edit/<%= category.id %>" method="POST">
+        <form
+          action="/category-management/edit/<%= category.id %>"
+          method="POST"
+        >
           <input
             type="text"
             name="name"
@@ -39,7 +42,10 @@
           <button type="submit">Submit Edit</button>
         </form>
 
-        <form action="/category/delete/<%= category.id %>" method="POST">
+        <form
+          action="/category-management/delete/<%= category.id %>"
+          method="POST"
+        >
           <button type="submit">Delete Category</button>
         </form>
       </li>
