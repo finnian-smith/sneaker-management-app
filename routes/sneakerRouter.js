@@ -17,6 +17,7 @@ sneakerRouter.get("/", homepageGet);
 
 sneakerRouter.get("/categories", categoriesListGet);
 sneakerRouter.get("/items", itemsListGet);
+sneakerRouter.get("/categories/:id", itemsListGet);
 
 sneakerRouter.get("/category-management", categoriesListGet);
 sneakerRouter.post("/category-management/add", categoriesListPost);

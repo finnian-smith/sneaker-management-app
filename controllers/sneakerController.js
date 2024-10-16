@@ -67,15 +67,30 @@ export const categoriesListDelete = async (req, res) => {
 };
 
 export const itemsListGet = async (req, res) => {
-  const view = req.route.path === "/items" ? "items" : "itemManagement";
+  const { id } = req.params;
+
+  let view;
+  if (req.route.path == "/items" || req.route.path == "/categories/:id") {
+    view = "items";
+  } else {
+    view = "itemManagement";
+  }
   const query = req.query.search || "";
   const searchType = req.query.searchType || "brand";
   let items;
+  let title = "Items";
 
   try {
     const categories = await db.getAllCategories();
 
-    if (query) {
+    if (id) {
+      items = await db.getItemsBySearch(id, "category");
+
+      const category = await db.getCategoryById(id);
+      if (category && category.name) {
+        title = `${category.name} Items`;
+      }
+    } else if (query) {
       items = await db.getItemsBySearch(query, searchType);
     } else {
       items = await db.getAllItems();
@@ -84,7 +99,7 @@ export const itemsListGet = async (req, res) => {
 
     if (items.length > 0) {
       res.render(view, {
-        title: "Items",
+        title: title,
         categories: categories,
         items: items,
       });

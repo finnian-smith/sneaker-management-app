@@ -12,6 +12,19 @@ const db = {
     }
   },
 
+  async getCategoryById(id) {
+    try {
+      const { rows } = await pool.query(
+        `SELECT * FROM category WHERE id = $1`,
+        [id]
+      );
+      return rows[0]; // Return the category object
+    } catch (error) {
+      console.error("Error fetching category:", error);
+      throw new Error("Could not fetch category");
+    }
+  },
+
   async addCategory(name, description) {
     try {
       await pool.query(
