@@ -14,7 +14,7 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Sneaker Management</a>
+        <a class="navbar-brand" href="/">SoleIndex</a>
         <!-- toggler -->
         <button
           class="navbar-toggler"
@@ -50,14 +50,14 @@
     </nav>
 
     <div class="home-page-main-content container-fluid d-flex">
+      <div class="overlay"></div>
       <div class="text-center">
         <h1><%= title %></h1>
-        <a href="/category-management" class="btn btn-primary my-2"
-          >Manage Categories</a
+        <h4><%= tag %></h4>
+        <a href="/categories" class="btn btn-primary my-2"
+          >View All Categories</a
         >
-        <a href="/item-management" class="btn btn-secondary my-2"
-          >Manage Items</a
-        >
+        <a href="/items" class="btn btn-secondary my-2">View All Items</a>
       </div>
     </div>
 

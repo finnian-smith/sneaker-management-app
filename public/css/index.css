@@ -1,0 +1,47 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page-main-content {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("https://media.gq.com/photos/5c116844548a353ac33f6e12/16:9/w_2560%2Cc_limit/Farfetch-Buys-Stadium-Goods-GQ-12122018_3x2.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* A semi-transparent black overlay */
+  z-index: 1; /* Places the overlay between the background and the content */
+}
+
+.text-center {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+a {
+  text-decoration: none;
+}

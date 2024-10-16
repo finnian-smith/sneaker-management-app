@@ -1,7 +1,10 @@
 import db from "../db/queries.js";
 
 export const homepageGet = async (req, res) => {
-  res.render("index", { title: "Sneaker Management" });
+  res.render("index", {
+    title: "SoleIndex",
+    tag: "A Sneaker Management Platform",
+  });
 };
 
 export const categoriesListGet = async (req, res) => {
