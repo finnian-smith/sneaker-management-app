@@ -1,4 +1,7 @@
 import db from "../db/queries.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const homepageGet = async (req, res) => {
   res.render("index", {
@@ -155,4 +158,30 @@ export const itemsListDelete = async (req, res) => {
     console.error("Error deleting item:", error);
     res.status(500).send("Internal Server Error");
   }
+};
+
+export const adminGet = async (req, res) => {
+  const isAdmin = req.session.isAdmin;
+
+  if (isAdmin) {
+    res.redirect("/category-management");
+  } else {
+    res.render("adminLogin");
+  }
+};
+
+export const adminPost = async (req, res) => {
+  const enteredPassword = req.body.password;
+
+  if (enteredPassword === process.env.ADMIN_PASSWORD) {
+    req.session.isAdmin = true;
+    res.redirect("/category-management");
+  } else {
+    res.status(401).send("Incorrect Password");
+  }
+};
+
+export const adminSessionDestroy = async (req, res) => {
+  req.session.destroy();
+  res.redirect("/admin");
 };
