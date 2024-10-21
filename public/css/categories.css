@@ -5,8 +5,8 @@
 }
 
 .categories-title {
-  margin-top: 40px;
-  width: 90%;
+  margin: 20px 0 0 10px;
+  align-self: flex-start;
 }
 
 .card {
@@ -59,11 +59,14 @@
   color: white;
 }
 
-.btn-primary {
-  background-color: #333;
-  border: none;
+@media screen and (min-width: 567px) {
+  .categories-title {
+    margin: 40px 0 0 20px;
+  }
 }
 
-.btn-primary:hover {
-  background-color: #555;
+@media screen and (min-width: 1024px) {
+  .categories-title {
+    margin: 40px 0 0 40px;
+  }
 }
