@@ -163,10 +163,26 @@ export const itemsListDelete = async (req, res) => {
 export const adminGet = async (req, res) => {
   const isAdmin = req.session.isAdmin;
 
-  if (isAdmin) {
-    res.redirect("/category-management");
-  } else {
-    res.render("adminLogin");
+  try {
+    const categories = await db.getAllCategories();
+    // const items = await db.getAllItems();
+
+    if (isAdmin) {
+      res.render("admin", {
+        title: "Admin Dashboard",
+        isAdmin: true,
+        categories: categories,
+      });
+    } else {
+      res.render("admin", {
+        title: "Admin Login",
+        isAdmin: false,
+        categories: categories,
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -175,9 +191,15 @@ export const adminPost = async (req, res) => {
 
   if (enteredPassword === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
-    res.redirect("/category-management");
+    res.redirect("/admin");
   } else {
-    res.status(401).send("Incorrect Password");
+    res
+      .status(401)
+      .render("admin", {
+        title: "Admin Login",
+        message: "Invalid credentials",
+        isAdmin: false,
+      });
   }
 };
 
