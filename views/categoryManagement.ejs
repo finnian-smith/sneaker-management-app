@@ -3,55 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/categoryManagement.css" />
     <title><%= title %></title>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <%- include('partials/navbar') %>
 
-    <h2>Add New Category</h2>
-    <form action="/category-management/add" method="POST">
-      <label for="name">Category Name:</label>
-      <input type="text" name="name" id="name" required />
-      <label for="description">Description:</label>
-      <input type="text" name="description" id="description" />
-      <button type="submit">Add Category</button>
-    </form>
+    <div class="category-management-container">
+      <h1 class="category-management-title"><%= title %></h1>
 
-    <ul>
-      <% categories.forEach((category) => { %>
-      <li>
-        <strong><%= category.name %>:</strong>
-        <small><%= category.description %></small>
+      <!-- add trigger -->
+      <button
+        type="button"
+        class="btn btn-success mt-5"
+        data-bs-toggle="modal"
+        data-bs-target="#addCategoryModal"
+      >
+        Add New Category
+      </button>
 
-        <form
-          action="/category-management/edit/<%= category.id %>"
-          method="POST"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="New name"
-            value="<%= category.name %>"
-          />
-          <input
-            type="text"
-            name="description"
-            placeholder="New description"
-            value="<%= category.description %>"
-          />
-          <button type="submit">Submit Edit</button>
-        </form>
+      <div class="container my-5">
+        <div class="row">
+          <% categories.forEach((category) => { %>
+          <div class="col-md-4">
+            <div
+              class="card mb-4 shadow <%= category.name.toLowerCase() %>-card"
+            >
+              <div class="overlay"></div>
+              <div class="card-body">
+                <h5 class="card-title"><%= category.name %></h5>
+                <p class="card-text"><%= category.description %></p>
 
-        <form
-          action="/category-management/delete/<%= category.id %>"
-          method="POST"
-        >
-          <button type="submit">Delete Category</button>
-        </form>
-      </li>
-      <% }) %>
-    </ul>
+                <!-- edit trigger -->
+                <button
+                  class="btn btn-dark"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal-<%= category.id %>"
+                >
+                  Edit
+                </button>
 
-    <a href="/">Back to Home</a>
+                <!-- delete trigger -->
+                <button
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteModal-<%= category.id %>"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- add modal -->
+          <%- include('partials/addCategoryModal') %>
+
+          <!-- edit modal -->
+          <%- include('partials/editCategoryModal', { category }) %>
+
+          <!-- delete modal -->
+          <%- include('partials/deleteCategoryModal', { category }) %> <% }) %>
+        </div>
+      </div>
+
+      <a href="/" class="btn btn-secondary mt-2 mb-5">Back to Home</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
