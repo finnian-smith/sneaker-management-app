@@ -1,16 +1,14 @@
 <div
   class="modal fade"
-  id="editItemModal-<%= item.id %>"
+  id="addItemModal"
   tabindex="-1"
-  aria-labelledby="editItemModalLabel-<%= item.id %>"
+  aria-labelledby="addItemModalLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editItemModalLabel-<%= item.id %>">
-          Edit Item: <%= item.name %>
-        </h5>
+        <h5 class="modal-title" id="addItemModalLabel">Add New Item</h5>
         <button
           type="button"
           class="btn-close"
@@ -19,9 +17,9 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form action="/item-management/edit/<%= item.id %>" method="POST">
+        <form action="/item-management/add" method="POST">
           <div class="mb-3">
-            <label for="itemCategory" class="form-label">Category</label>
+            <label for="category_id" class="form-label">Category</label>
             <select
               name="category_id"
               id="category_id"
@@ -30,67 +28,67 @@
             >
               <option value="" disabled selected>--Select Category--</option>
               <% categories.forEach((category) => { %>
-              <!-- NOTE HERE THE OPTION VALUE IS CATEGORY.ID & CATEGORY.NAME -->
               <option value="<%= category.id %>"><%= category.name %></option>
               <% }) %>
             </select>
           </div>
 
           <div class="mb-3">
-            <label for="itemName" class="form-label">Name</label>
+            <label for="name" class="form-label">Item Name</label>
             <input
               type="text"
-              class="form-control"
               name="name"
-              value="<%= item.name %>"
+              id="name"
+              class="form-control"
               required
             />
           </div>
 
           <div class="mb-3">
-            <label for="itemBrand" class="form-label">Brand</label>
+            <label for="brand" class="form-label">Brand</label>
             <input
               type="text"
-              class="form-control"
               name="brand"
-              value="<%= item.brand %>"
+              id="brand"
+              class="form-control"
               required
             />
           </div>
 
           <div class="mb-3">
-            <label for="itemPrice" class="form-label">Price</label>
+            <label for="price" class="form-label">Price</label>
             <input
               type="number"
-              class="form-control"
               name="price"
-              value="<%= item.price %>"
+              id="price"
+              class="form-control"
               required
             />
           </div>
 
           <div class="mb-3">
-            <label for="itemStock" class="form-label">Stock</label>
+            <label for="stock" class="form-label">Stock</label>
             <input
               type="number"
+              name="stock_quantity"
+              id="stock_quantity"
               class="form-control"
-              name="stock"
-              value="<%= item.stock_quantity %>"
               required
             />
           </div>
 
           <div class="mb-3">
-            <label for="itemSize" class="form-label">Size</label>
+            <label for="size" class="form-label">Size</label>
             <input
               type="text"
-              class="form-control"
               name="size"
-              value="<%= item.size %>"
+              id="size"
+              class="form-control"
               required
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit Edit</button>
+
+          <button type="submit" class="btn btn-primary">Add Item</button>
         </form>
       </div>
     </div>
