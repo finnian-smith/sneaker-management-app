@@ -1,0 +1,98 @@
+<div
+  class="modal fade"
+  id="editModal-<%= item.id %>"
+  tabindex="-1"
+  aria-labelledby="editModalLabel-<%= item.id %>"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel-<%= item.id %>">
+          Edit Item: <%= item.name %>
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="/item-management/edit/<%= item.id %>" method="POST">
+          <div class="mb-3">
+            <label for="itemCategory" class="form-label">Category</label>
+            <select
+              name="category_id"
+              id="category_id"
+              class="form-control"
+              required
+            >
+              <option value="" disabled selected>--Select Category--</option>
+              <% categories.forEach((category) => { %>
+              <!-- NOTE HERE THE OPTION VALUE IS CATEGORY.ID & CATEGORY.NAME -->
+              <option value="<%= category.id %>"><%= category.name %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="itemName" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              value="<%= item.name %>"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="itemBrand" class="form-label">Brand</label>
+            <input
+              type="text"
+              class="form-control"
+              name="brand"
+              value="<%= item.brand %>"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="itemPrice" class="form-label">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              name="price"
+              value="<%= item.price %>"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="itemStock" class="form-label">Stock</label>
+            <input
+              type="number"
+              class="form-control"
+              name="stock"
+              value="<%= item.stock_quantity %>"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="itemSize" class="form-label">Size</label>
+            <input
+              type="text"
+              class="form-control"
+              name="size"
+              value="<%= item.size %>"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
