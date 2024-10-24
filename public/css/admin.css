@@ -18,19 +18,19 @@
   padding: 20px;
 }
 
-form {
+.admin-login-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
 }
 
-label {
+.admin-login-form-label {
   font-weight: 500;
   font-size: 1.2rem;
 }
 
-input {
+.admin-login-form-input {
   border-radius: 12px;
   border: 1px solid;
   padding: 5px;
