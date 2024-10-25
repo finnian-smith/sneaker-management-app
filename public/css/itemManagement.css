@@ -9,7 +9,7 @@
   align-self: flex-start;
 }
 
-.card {
+.item-management-container .item-card {
   border: none;
   border-radius: 12px;
   overflow: hidden;
@@ -18,38 +18,38 @@
   min-height: 250px;
 }
 
-.card img {
+.item-card img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
-  display: block; /* this can maybe be removed??? */
+  min-height: 250px;
 }
 
-.card:hover {
+.item-card:hover {
   transform: scale(1.01);
 }
 
-.card-body {
+.item-card .card-body {
   padding: 20px;
   z-index: 2;
 }
 
-.card-title {
+.item-card .card-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: black;
 }
 
-.card-text {
+.item-card .card-text {
   font-size: 1rem;
   color: black;
 }
 
-.card-text:nth-child(4) {
+.item-card .card-text:nth-child(4) {
   font-weight: 600;
 }
 
-.category-tag {
+.item-card .category-tag {
   border-radius: 20px;
   padding: 2px 5px;
   color: white;
@@ -59,7 +59,8 @@
   background-color: blue;
 }
 
-.search-card {
+.item-management-container .search-card {
+  border-radius: 12px;
   min-height: fit-content;
   width: 80%;
 }
@@ -73,17 +74,7 @@
 }
 
 @media screen and (min-width: 567px) {
-  .item-management-title {
-    margin: 40px 0 0 20px;
-  }
-
-  .search-card {
+  .item-management-container .search-card {
     width: auto;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .item-management-title {
-    margin: 40px 0 0 40px;
   }
 }

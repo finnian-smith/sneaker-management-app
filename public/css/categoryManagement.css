@@ -9,7 +9,7 @@
   align-self: flex-start;
 }
 
-.card {
+.category-management-container .category-card {
   border: none;
   border-radius: 12px;
   overflow: hidden;
@@ -30,34 +30,22 @@
   z-index: 1;
 }
 
-.card:hover {
+.category-card:hover {
   transform: scale(1.01);
 }
 
-.card-body {
+.category-card .card-body {
   padding: 20px;
   z-index: 2;
 }
 
-.card-title {
+.category-card .card-title {
+  color: white;
   font-size: 1.5rem;
   font-weight: bold;
-  color: white;
 }
 
-.card-text {
+.category-card .card-text {
   font-size: 1rem;
   color: white;
-}
-
-@media screen and (min-width: 567px) {
-  .category-management-title {
-    margin: 40px 0 0 20px;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .category-management-title {
-    margin: 40px 0 0 40px;
-  }
 }

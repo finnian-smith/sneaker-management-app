@@ -19,7 +19,7 @@
       <% if (typeof message !== 'undefined') { %>
       <div class="alert alert-danger mt-5"><%= message %></div>
       <% } %>
-      <div class="my-5 card shadow">
+      <div class="my-5 card shadow admin-login-card">
         <div class="card-body">
           <form action="/admin/login" method="POST" class="admin-login-form">
             <label for="password" class="admin-login-form-label"
@@ -111,34 +111,64 @@
           $(".modal-backdrop").remove();
         }
 
-        // load category management by default
-        $("#category-content").load("/category-management", () => {
+        // Function to dynamically load and unload stylesheets
+        function switchStylesheet(newStylesheetId, newStylesheetHref) {
+          console.log(
+            `Removing previous stylesheet: ${$(
+              "link[id$='-management-styles']"
+            ).attr("id")}`
+          );
+          // Remove the current stylesheet if it exists
+          $("link[id$='-management-styles']").remove();
+          console.log(
+            `Loading new stylesheet: ${newStylesheetId} - ${newStylesheetHref}`
+          );
+
+          // Append the new stylesheet
+          $("head").append(
+            `<link id="${newStylesheetId}" rel="stylesheet" href="${newStylesheetHref}" />`
+          );
+        }
+
+        // Load category management by default and apply its styles
+        $("#category-content").load("/category-management", function () {
           cleanUpModalBackdrops();
+          switchStylesheet(
+            "category-management-styles",
+            "/css/categoryManagement.css"
+          );
         });
 
-        // handle switch to item management
-        $("#item-tab").on("click", () => {
+        // Handle switch to item management
+        $("#item-tab").on("click", function () {
           cleanUpModalBackdrops();
-          $("#item-content").load("/item-management", () => {
+          $("#item-content").load("/item-management", function () {
             cleanUpModalBackdrops();
+            switchStylesheet(
+              "item-management-styles",
+              "/css/itemManagement.css"
+            );
           });
         });
 
-        // handle switch to category management
-        $("#category-tab").on("click", () => {
+        // Handle switch to category management
+        $("#category-tab").on("click", function () {
           cleanUpModalBackdrops();
-          $("#category-content").load("/category-management", () => {
+          $("#category-content").load("/category-management", function () {
             cleanUpModalBackdrops();
+            switchStylesheet(
+              "category-management-styles",
+              "/css/categoryManagement.css"
+            );
           });
         });
 
-        // listen to modal show events to ensure only one backdrop is created
-        $(document).on("show.bs.modal", () => {
+        // Listen to modal show and hide events to clean up modal backdrops
+        $(document).on("show.bs.modal", function () {
           cleanUpModalBackdrops();
         });
 
-        // listen to modal hide events to clean up properly after a modal is closed
-        $(document).on("hidden.bs.modal", () => {
+        $(document).on("hidden.bs.modal", function () {
           cleanUpModalBackdrops();
         });
       });
