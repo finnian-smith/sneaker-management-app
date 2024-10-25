@@ -1,62 +1,7 @@
-.item-management-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.item-management-title {
-  margin: 20px 0 0 10px;
-  align-self: flex-start;
-}
-
-.item-management-container .item-card {
+/* .item-management-container .item-card {
   border: none;
   border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s ease-in-out;
-  box-shadow: 2px 0 5px #333;
   min-height: 250px;
-}
-
-.item-card img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  min-height: 250px;
-}
-
-.item-card:hover {
-  transform: scale(1.01);
-}
-
-.item-card .card-body {
-  padding: 20px;
-  z-index: 2;
-}
-
-.item-card .card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: black;
-}
-
-.item-card .card-text {
-  font-size: 1rem;
-  color: black;
-}
-
-.item-card .card-text:nth-child(4) {
-  font-weight: 600;
-}
-
-.item-card .category-tag {
-  border-radius: 20px;
-  padding: 2px 5px;
-  color: white;
-  width: fit-content;
-  font-size: 0.6rem;
-  /* background-color to change via inline style */
-  background-color: blue;
 }
 
 .item-management-container .search-card {
@@ -77,4 +22,4 @@
   .item-management-container .search-card {
     width: auto;
   }
-}
+} */

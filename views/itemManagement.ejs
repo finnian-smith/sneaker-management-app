@@ -7,52 +7,54 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      id="item-management-styles"
-      rel="stylesheet"
-      href="/css/itemManagement.css"
-    />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/item.css" />
+    <link rel="stylesheet" href="/css/itemManagement.css" />
     <title><%= title %></title>
   </head>
   <body>
-    <div class="item-management-container">
+    <div class="container d-flex flex-column justify-content-center">
       <!-- add trigger -->
-      <button
-        type="button"
-        class="btn btn-success my-5"
-        data-bs-toggle="modal"
-        data-bs-target="#addItemModal"
-      >
-        Add New Item
-      </button>
+      <div class="d-flex justify-content-center">
+        <button
+          type="button"
+          class="btn btn-success my-5"
+          data-bs-toggle="modal"
+          data-bs-target="#addItemModal"
+        >
+          Add New Item
+        </button>
+      </div>
 
       <!-- search -->
-      <div class="card shadow my-3 search-card">
-        <div class="card-body">
-          <h3 class="card-title">Search for Items</h3>
-          <form action="/item-management" method="GET" class="row g-3">
-            <div class="col-12 col-md-5">
-              <input
-                type="text"
-                name="search"
-                id="search"
-                placeholder="Search for items..."
-                class="form-control"
-              />
-            </div>
-            <div class="col-12 col-md-4">
-              <select name="searchType" id="searchType" class="form-select">
-                <option value="brand">Brand</option>
-                <option value="category">Category</option>
-                <option value="size">Size</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-3">
-              <button type="submit" class="btn btn-primary w-100">
-                Search
-              </button>
-            </div>
-          </form>
+      <div class="d-flex justify-content-center">
+        <div class="card shadow my-3 search-card">
+          <div class="card-body">
+            <h3 class="card-title">Search for Items</h3>
+            <form action="/item-management" method="GET" class="row g-3">
+              <div class="col-12 col-md-5">
+                <input
+                  type="text"
+                  name="search"
+                  id="search"
+                  placeholder="Search for items..."
+                  class="form-control"
+                />
+              </div>
+              <div class="col-12 col-md-4">
+                <select name="searchType" id="searchType" class="form-select">
+                  <option value="brand">Brand</option>
+                  <option value="category">Category</option>
+                  <option value="size">Size</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-3">
+                <button type="submit" class="btn btn-primary w-100">
+                  Search
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -125,7 +127,9 @@
         </div>
       </div>
 
-      <a href="/" class="btn btn-secondary mt-2 mb-5">Back to Home</a>
+      <div class="d-flex justify-content-center">
+        <a href="/" class="btn btn-secondary mt-2 mb-5">Back to Home</a>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -7,6 +7,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
+    <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/admin.css" />
     <title><%= title %></title>
   </head>
@@ -14,27 +16,35 @@
     <%- include('partials/navbar') %> <% if (!isAdmin) { %>
 
     <!-- admin login -->
-    <div class="admin-container">
-      <h1 class="admin-title">Admin Login</h1>
-      <% if (typeof message !== 'undefined') { %>
-      <div class="alert alert-danger mt-5"><%= message %></div>
-      <% } %>
-      <div class="my-5 card shadow admin-login-card">
-        <div class="card-body">
-          <form action="/admin/login" method="POST" class="admin-login-form">
-            <label for="password" class="admin-login-form-label"
-              >Password</label
-            >
-            <input
-              type="password"
-              name="password"
-              id="password"
-              class="admin-login-form-input"
-              required
-            />
-            <button type="submit" class="btn btn-dark">Login</button>
-          </form>
+    <div class="container my-5">
+      <h1>Admin Login</h1>
+      <div class="d-flex justify-content-center">
+        <% if (typeof message !== 'undefined') { %>
+        <div class="alert alert-danger mt-5"><%= message %></div>
+        <% } %>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="my-5 card shadow admin-login-card">
+          <div class="card-body">
+            <form action="/admin/login" method="POST" class="admin-login-form">
+              <label for="password" class="admin-login-form-label"
+                >Password</label
+              >
+              <input
+                type="password"
+                name="password"
+                id="password"
+                class="admin-login-form-input"
+                required
+              />
+              <button type="submit" class="btn btn-dark">Login</button>
+            </form>
+          </div>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <a href="/" class="btn btn-secondary mt-2 mb-5">Back to Home</a>
       </div>
     </div>
 
@@ -45,7 +55,7 @@
       <h1>Admin Dashboard</h1>
 
       <!-- nav tabs -->
-      <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+      <ul class="nav nav-tabs mt-3" id="adminTabs" role="tablist">
         <li class="nav-item" role="presentation">
           <button
             class="nav-link active"
@@ -111,64 +121,34 @@
           $(".modal-backdrop").remove();
         }
 
-        // Function to dynamically load and unload stylesheets
-        function switchStylesheet(newStylesheetId, newStylesheetHref) {
-          console.log(
-            `Removing previous stylesheet: ${$(
-              "link[id$='-management-styles']"
-            ).attr("id")}`
-          );
-          // Remove the current stylesheet if it exists
-          $("link[id$='-management-styles']").remove();
-          console.log(
-            `Loading new stylesheet: ${newStylesheetId} - ${newStylesheetHref}`
-          );
-
-          // Append the new stylesheet
-          $("head").append(
-            `<link id="${newStylesheetId}" rel="stylesheet" href="${newStylesheetHref}" />`
-          );
-        }
-
-        // Load category management by default and apply its styles
-        $("#category-content").load("/category-management", function () {
+        // load category management by default
+        $("#category-content").load("/category-management", () => {
           cleanUpModalBackdrops();
-          switchStylesheet(
-            "category-management-styles",
-            "/css/categoryManagement.css"
-          );
         });
 
-        // Handle switch to item management
-        $("#item-tab").on("click", function () {
+        // handle switch to item management
+        $("#item-tab").on("click", () => {
           cleanUpModalBackdrops();
-          $("#item-content").load("/item-management", function () {
+          $("#item-content").load("/item-management", () => {
             cleanUpModalBackdrops();
-            switchStylesheet(
-              "item-management-styles",
-              "/css/itemManagement.css"
-            );
           });
         });
 
-        // Handle switch to category management
-        $("#category-tab").on("click", function () {
+        // handle switch to category management
+        $("#category-tab").on("click", () => {
           cleanUpModalBackdrops();
-          $("#category-content").load("/category-management", function () {
+          $("#category-content").load("/category-management", () => {
             cleanUpModalBackdrops();
-            switchStylesheet(
-              "category-management-styles",
-              "/css/categoryManagement.css"
-            );
           });
         });
 
-        // Listen to modal show and hide events to clean up modal backdrops
-        $(document).on("show.bs.modal", function () {
+        // listen to modal show events to ensure only one backdrop is created
+        $(document).on("show.bs.modal", () => {
           cleanUpModalBackdrops();
         });
 
-        $(document).on("hidden.bs.modal", function () {
+        // listen to modal hide events to clean up properly after a modal is closed
+        $(document).on("hidden.bs.modal", () => {
           cleanUpModalBackdrops();
         });
       });

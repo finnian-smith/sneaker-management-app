@@ -1,0 +1,44 @@
+.item-card {
+  min-height: 250px;
+}
+
+.item-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  min-height: 250px;
+}
+
+.item-card:hover {
+  transform: scale(1.01);
+}
+
+.item-card .card-body {
+  padding: 20px;
+  z-index: 2;
+}
+
+.item-card .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+.item-card .card-text {
+  font-size: 1rem;
+  color: black;
+}
+
+.item-card .card-text:nth-child(4) {
+  font-weight: 600;
+}
+
+.item-card .category-tag {
+  border-radius: 20px;
+  padding: 2px 5px;
+  color: white;
+  width: fit-content;
+  font-size: 0.6rem;
+  /* background-color to change via inline style */
+  background-color: blue;
+}
