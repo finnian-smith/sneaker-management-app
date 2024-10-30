@@ -20,7 +20,7 @@
       <div class="container my-5">
         <div class="row">
           <% items.forEach(item => { %>
-          <div class="col-md-12 col-lg-6">
+          <div class="col-md-12 col-lg-6 d-flex">
             <div class="card mb-3 item-card">
               <div class="row g-0">
                 <div class="col-md-6">
@@ -50,9 +50,11 @@
                         %></small
                       >
                     </p>
-                    <a href="/item/<%= item.id %>" class="btn btn-dark"
-                      >View Details</a
-                    >
+                    <div class="btn-container">
+                      <a href="/item/<%= item.id %>" class="btn btn-dark"
+                        >View Details</a
+                      >
+                    </div>
                   </div>
                 </div>
               </div>

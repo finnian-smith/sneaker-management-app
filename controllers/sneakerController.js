@@ -16,7 +16,6 @@ export const categoriesListGet = async (req, res) => {
 
   try {
     const categories = await db.getAllCategories();
-    console.log("categories:", categories);
 
     if (categories.length > 0) {
       res.render(view, {
@@ -36,8 +35,7 @@ export const categoriesListPost = async (req, res) => {
   try {
     const { name, description } = req.body;
     await db.addCategory(name, description);
-    console.log("added new category:", name, description);
-    res.redirect("/category-management");
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error inserting category:", error);
     res.status(500).send("Internal Server Error");
@@ -49,8 +47,7 @@ export const categoriesListEdit = async (req, res) => {
     const { id } = req.params;
     const { name, description } = req.body;
     await db.editCategory(id, name, description);
-    console.log("edited category:", id, name, description);
-    res.redirect("/category-management");
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error editing category:", error);
     res.status(500).send("Internal Server Error");
@@ -61,8 +58,7 @@ export const categoriesListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteCategory(id);
-    res.redirect("/category-management");
-    console.log("deleted category:", id);
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error deleting category:", error);
     res.status(500).send("Internal Server Error");
@@ -70,48 +66,45 @@ export const categoriesListDelete = async (req, res) => {
 };
 
 export const itemsListGet = async (req, res) => {
-  const { id } = req.params;
-
-  let view;
-  if (req.route.path == "/items" || req.route.path == "/categories/:id") {
-    view = "items";
-  } else {
-    view = "itemManagement";
-  }
-  const query = req.query.search || "";
-  const searchType = req.query.searchType || "brand";
-  let items;
-  let title = "Items";
+  const view = req.route.path === "/items" ? "items" : "itemManagement";
 
   try {
+    const items = await db.getAllItems();
     const categories = await db.getAllCategories();
-
-    if (id) {
-      items = await db.getItemsBySearch(id, "category");
-
-      const category = await db.getCategoryById(id);
-      if (category && category.name) {
-        title = `${category.name} Items`;
-      }
-    } else if (query) {
-      items = await db.getItemsBySearch(query, searchType);
-    } else {
-      items = await db.getAllItems();
-    }
-    console.log("items:", items);
 
     if (items.length > 0) {
       res.render(view, {
-        title: title,
-        categories: categories,
+        title: "Items",
         items: items,
+        categories: categories,
       });
     } else {
       res.status(404).send("No items found.");
     }
   } catch (error) {
-    console.error("Error fetching items:", error);
+    console.error("Error fetching items or categories:", error);
     res.status(500).send("Internal Server Error");
+  }
+};
+
+export const itemsListSearch = async (req, res) => {
+  const query = req.query.search || "";
+
+  try {
+    let items, categories;
+
+    if (query) {
+      items = await db.getItemsBySearch(query);
+    } else {
+      items = await db.getAllItems();
+    }
+
+    categories = await db.getAllCategories();
+
+    res.json({ items, categories });
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -119,8 +112,7 @@ export const itemsListPost = async (req, res) => {
   try {
     const { name, brand, price, stock_quantity, category_id, size } = req.body;
     await db.addItem(name, brand, price, stock_quantity, category_id, size);
-    console.log("added new item:", name, brand);
-    res.redirect("/item-management");
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error inserting item:", error);
     res.status(500).send("Internal Server Error");
@@ -140,8 +132,7 @@ export const itemsListEdit = async (req, res) => {
       category_id,
       size
     );
-    console.log("edited item:", id, name);
-    res.redirect("/item-management");
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error editing item:", error);
     res.status(500).send("Internal Server Error");
@@ -152,8 +143,7 @@ export const itemsListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteItem(id);
-    res.redirect("/item-management");
-    console.log("deleted item:", id);
+    res.redirect("/admin");
   } catch (error) {
     console.error("Error deleting item:", error);
     res.status(500).send("Internal Server Error");
@@ -193,13 +183,11 @@ export const adminPost = async (req, res) => {
     req.session.isAdmin = true;
     res.redirect("/admin");
   } else {
-    res
-      .status(401)
-      .render("admin", {
-        title: "Admin Login",
-        message: "Invalid credentials",
-        isAdmin: false,
-      });
+    res.status(401).render("admin", {
+      title: "Admin Login",
+      message: "Invalid credentials",
+      isAdmin: false,
+    });
   }
 };
 

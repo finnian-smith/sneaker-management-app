@@ -1,12 +1,16 @@
 .item-card {
-  min-height: 250px;
+  display: flex;
+}
+
+.item-card .row {
+  flex: 1;
+  display: flex;
 }
 
 .item-card img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-  min-height: 250px;
 }
 
 .item-card:hover {
@@ -16,6 +20,10 @@
 .item-card .card-body {
   padding: 20px;
   z-index: 2;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(auto, max-content));
+  row-gap: 10px;
+  height: 100%;
 }
 
 .item-card .card-title {
@@ -41,4 +49,10 @@
   font-size: 0.6rem;
   /* background-color to change via inline style */
   background-color: blue;
+}
+
+@media screen and (min-width: 991px) {
+  .item-card .card-body {
+    grid-template-rows: min-content 1fr min-content min-content min-content min-content;
+  }
 }

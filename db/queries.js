@@ -18,7 +18,7 @@ const db = {
         `SELECT * FROM category WHERE id = $1`,
         [id]
       );
-      return rows[0]; // Return the category object
+      return rows[0];
     } catch (error) {
       console.error("Error fetching category:", error);
       throw new Error("Could not fetch category");
@@ -88,55 +88,23 @@ const db = {
     }
   },
 
-  async getItemsBySearch(query, searchType, limit = 10, offset = 0) {
-    let sqlQuery;
-    let values;
-
-    switch (searchType) {
-      case "category":
-        sqlQuery = `
-          SELECT item.*, category.name AS category_name 
-          FROM item 
-          INNER JOIN category ON item.category_id = category.id 
-          WHERE category.id = $1 OR category.name ILIKE $2
-          LIMIT $3 OFFSET $4
-        `;
-        values = [query, `%${query}%`, limit, offset];
-        break;
-
-      case "brand":
-        sqlQuery = `
-          SELECT item.*, category.name AS category_name 
-          FROM item 
-          INNER JOIN category ON item.category_id = category.id
-          WHERE brand ILIKE $1 
-          LIMIT $2 OFFSET $3
-        `;
-        values = [`%${query}%`, limit, offset];
-        break;
-
-      case "size":
-        sqlQuery = `
-          SELECT item.*, category.name AS category_name 
-          FROM item 
-          INNER JOIN category ON item.category_id = category.id
-          WHERE size LIKE $1 
-          LIMIT $2 OFFSET $3
-        `;
-        values = [`%${query}%`, limit, offset];
-        break;
-
-      default:
-        throw new Error(
-          "Invalid search type. Must be 'category', 'brand', or 'size'."
-        );
-    }
+  async getItemsBySearch(query, limit = 10, offset = 0) {
+    const sqlQuery = `
+    SELECT item.*, category.name AS category_name 
+    FROM item 
+    INNER JOIN category ON item.category_id = category.id 
+    WHERE item.name ILIKE $1 
+       OR item.brand ILIKE $1 
+       OR category.name ILIKE $1
+    LIMIT $2 OFFSET $3
+  `;
+    const values = [`%${query}%`, limit, offset];
 
     try {
       const { rows } = await pool.query(sqlQuery, values);
       return rows;
     } catch (error) {
-      console.error(`Error executing '${searchType}' search query:`, error);
+      console.error(`Error executing search query:`, error);
       throw new Error("Could not fetch items");
     }
   },

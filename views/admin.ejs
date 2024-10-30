@@ -122,14 +122,14 @@
         }
 
         // load category management by default
-        $("#category-content").load("/category-management", () => {
+        $("#category-content").load("/admin/category-management", () => {
           cleanUpModalBackdrops();
         });
 
         // handle switch to item management
         $("#item-tab").on("click", () => {
           cleanUpModalBackdrops();
-          $("#item-content").load("/item-management", () => {
+          $("#item-content").load("/admin/item-management", () => {
             cleanUpModalBackdrops();
           });
         });
@@ -137,7 +137,7 @@
         // handle switch to category management
         $("#category-tab").on("click", () => {
           cleanUpModalBackdrops();
-          $("#category-content").load("/category-management", () => {
+          $("#category-content").load("/admin/category-management", () => {
             cleanUpModalBackdrops();
           });
         });

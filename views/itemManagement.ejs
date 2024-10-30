@@ -27,12 +27,19 @@
       </div>
 
       <!-- search -->
+      <!-- Admin item fix needed - adding, editing, deleting -->
+      <!-- redirected = default loads the category tab -->
       <div class="d-flex justify-content-center">
         <div class="card shadow my-3 search-card">
           <div class="card-body">
             <h5 class="card-title">Search for Items</h5>
-            <form action="/item-management" method="GET" class="row g-3">
-              <div class="col-12 col-md-5">
+            <form
+              id="searchForm"
+              action="/admin/item-management/search"
+              method="GET"
+              class="row g-3"
+            >
+              <div class="col-12 col-md-8">
                 <input
                   type="text"
                   name="search"
@@ -42,13 +49,6 @@
                 />
               </div>
               <div class="col-12 col-md-4">
-                <select name="searchType" id="searchType" class="form-select">
-                  <option value="brand">Brand</option>
-                  <option value="category">Category</option>
-                  <option value="size">Size</option>
-                </select>
-              </div>
-              <div class="col-12 col-md-3">
                 <button type="submit" class="btn btn-primary w-100">
                   Search
                 </button>
@@ -60,70 +60,74 @@
 
       <!-- display -->
       <div class="container my-5">
-        <div class="row">
-          <% items.forEach(item => { %>
-          <div class="col-md-12 col-lg-6">
-            <div class="card mb-3 item-card">
-              <div class="row g-0">
-                <div class="col-md-6">
-                  <img
-                    src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/e7669ab1-f716-428a-b8c3-ddc47d18b68c/NIKE+AIR+MAX+1.png"
-                    class="img-fluid rounded-start"
-                    alt="<%= item.name %>"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <div class="card-body">
-                    <!-- category tag color to be updated later with revised category structure -->
-                    <p class="card-text category-tag">
-                      <%= item.category_name || 'Category Unavailable' %>
-                    </p>
-                    <h5 class="card-title"><%= item.name %></h5>
+        <div id="itemsContainer">
+          <div class="row">
+            <% items.forEach(item => { %>
+            <div class="col-md-12 col-lg-6 d-flex">
+              <div class="card mb-3 item-card">
+                <div class="row g-0">
+                  <div class="col-md-6">
+                    <img
+                      src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/e7669ab1-f716-428a-b8c3-ddc47d18b68c/NIKE+AIR+MAX+1.png"
+                      class="img-fluid rounded-start"
+                      alt="<%= item.name %>"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card-body">
+                      <!-- category tag color to be updated later with revised category structure -->
+                      <p class="card-text category-tag">
+                        <%= item.category_name || 'Category Unavailable' %>
+                      </p>
+                      <h5 class="card-title"><%= item.name %></h5>
 
-                    <p class="card-text">
-                      <%= item.brand || 'No brand available.' %>
-                    </p>
-                    <p class="card-text">
-                      €<%= item.price || 'No price available.' %>
-                    </p>
-                    <p class="card-text">
-                      <small class="text-body-secondary"
-                        >Available Sizes: <%= item.size ? item.size : 'unknown'
-                        %></small
-                      >
-                    </p>
+                      <p class="card-text">
+                        <%= item.brand || 'No brand available.' %>
+                      </p>
+                      <p class="card-text">
+                        €<%= item.price || 'No price available.' %>
+                      </p>
+                      <p class="card-text">
+                        <small class="text-body-secondary"
+                          >Available Sizes: <%= item.size ? item.size :
+                          'unknown' %></small
+                        >
+                      </p>
 
-                    <!-- edit trigger -->
-                    <button
-                      class="btn btn-dark"
-                      data-bs-toggle="modal"
-                      data-bs-target="#editItemModal-<%= item.id %>"
-                    >
-                      Edit
-                    </button>
+                      <div class="btn-container">
+                        <!-- edit trigger -->
+                        <button
+                          class="btn btn-dark"
+                          data-bs-toggle="modal"
+                          data-bs-target="#editItemModal-<%= item.id %>"
+                        >
+                          Edit
+                        </button>
 
-                    <!-- delete trigger -->
-                    <button
-                      class="btn btn-danger"
-                      data-bs-toggle="modal"
-                      data-bs-target="#deleteItemModal-<%= item.id %>"
-                    >
-                      Delete
-                    </button>
+                        <!-- delete trigger -->
+                        <button
+                          class="btn btn-danger"
+                          data-bs-toggle="modal"
+                          data-bs-target="#deleteItemModal-<%= item.id %>"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <!-- add modal -->
+            <%- include('partials/addItemModal') %>
+
+            <!-- edit modal -->
+            <%- include('partials/editItemModal', { item }) %>
+
+            <!-- delete modal -->
+            <%- include('partials/deleteItemModal', { item }) %> <% }) %>
           </div>
-
-          <!-- add modal -->
-          <%- include('partials/addItemModal') %>
-
-          <!-- edit modal -->
-          <%- include('partials/editItemModal', { item }) %>
-
-          <!-- delete modal -->
-          <%- include('partials/deleteItemModal', { item }) %> <% }) %>
         </div>
       </div>
 
@@ -135,5 +139,109 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      document
+        .getElementById("searchForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault(); // prevent default form submission
+
+          const query = document.getElementById("search").value.trim();
+
+          if (!query) return; // query == empty -> don't search
+
+          try {
+            // fetch search results from server
+            const response = await fetch(
+              `/admin/item-management/search?search=${encodeURIComponent(
+                query
+              )}`
+            );
+            if (!response.ok) throw new Error("Failed to fetch search results");
+
+            const data = await response.json();
+            renderItems(data.items);
+          } catch (error) {
+            console.error("Error fetching items:", error);
+            document.getElementById("itemsContainer").innerHTML =
+              "<p>Error fetching items. Please try again.</p>";
+          }
+        });
+
+      // render items
+      function renderItems(items) {
+        const itemsContainer = document.getElementById("itemsContainer");
+        itemsContainer.innerHTML = "";
+
+        if (items.length === 0) {
+          itemsContainer.innerHTML = "<p>No items found.</p>";
+          return;
+        }
+
+        const itemRow = document.createElement("div");
+        itemRow.classList.add("row");
+
+        itemsContainer.appendChild(itemRow);
+
+        items.forEach((item) => {
+          const itemElement = document.createElement("div");
+          itemElement.classList.add("col-md-12", "col-lg-6");
+          itemElement.innerHTML = `
+              <div class="card mb-3 item-card">
+                <div class="row g-0">
+                  <div class="col-md-6">
+                    <img
+                      src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/e7669ab1-f716-428a-b8c3-ddc47d18b68c/NIKE+AIR+MAX+1.png"
+                      class="img-fluid rounded-start"
+                      alt="${item.name}"
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card-body">
+                      <p class="card-text category-tag">
+                        ${item.category_name}
+                      </p>
+                      <h5 class="card-title">${item.name}</h5>
+
+                      <p class="card-text">
+                        ${item.brand}
+                      </p>
+                      <p class="card-text">
+                        €${item.price}
+                      </p>
+                      <p class="card-text">
+                        <small class="text-body-secondary"
+                          >Available Sizes: ${item.size}</small
+                        >
+                      </p>
+
+                      <div class="btn-container">
+                      <!-- edit trigger -->
+                      <button
+                        class="btn btn-dark"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editItemModal-${item.id}"
+                      >
+                        Edit
+                      </button>
+
+                      <!-- delete trigger -->
+                      <button
+                        class="btn btn-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteItemModal-${item.id}"
+                      >
+                        Delete
+                      </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        `;
+          itemRow.appendChild(itemElement);
+        });
+      }
+    </script>
   </body>
 </html>
