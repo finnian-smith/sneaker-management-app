@@ -19,7 +19,7 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form action="/item-management/edit/<%= item.id %>" method="POST">
+        <form action="/admin/item-management/edit/<%= item.id %>" method="POST">
           <div class="mb-3">
             <label for="itemCategory" class="form-label">Category</label>
             <select
@@ -28,9 +28,7 @@
               class="form-control"
               required
             >
-              <option value="" disabled selected>--Select Category--</option>
               <% categories.forEach((category) => { %>
-              <!-- NOTE HERE THE OPTION VALUE IS CATEGORY.ID & CATEGORY.NAME -->
               <option value="<%= category.id %>"><%= category.name %></option>
               <% }) %>
             </select>
@@ -74,7 +72,7 @@
             <input
               type="number"
               class="form-control"
-              name="stock"
+              name="stock_quantity"
               value="<%= item.stock_quantity %>"
               required
             />

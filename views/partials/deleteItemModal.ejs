@@ -23,7 +23,10 @@
           Are you sure you want to delete this item? Enter the item name "<%=
           item.name %>" to confirm:
         </p>
-        <form action="/item-management/delete/<%= item.id %>" method="POST">
+        <form
+          action="/admin/item-management/delete/<%= item.id %>"
+          method="POST"
+        >
           <div class="mb-3">
             <input
               type="text"
