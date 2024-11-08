@@ -26,6 +26,8 @@
         <form
           action="/admin/item-management/delete/<%= item.id %>"
           method="POST"
+          class="delete-item-form"
+          data-id="<%= item.id %>"
         >
           <div class="mb-3">
             <input

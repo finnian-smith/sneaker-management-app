@@ -19,7 +19,12 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form action="/admin/item-management/edit/<%= item.id %>" method="POST">
+        <form
+          action="/admin/item-management/edit/<%= item.id %>"
+          method="POST"
+          class="edit-item-form"
+          data-id="<%= item.id %>"
+        >
           <div class="mb-3">
             <label for="itemCategory" class="form-label">Category</label>
             <select

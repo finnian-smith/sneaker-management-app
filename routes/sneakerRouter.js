@@ -13,9 +13,12 @@ import {
   adminGet,
   adminPost,
   adminSessionDestroy,
+  itemsListGetJson,
 } from "../controllers/sneakerController.js";
 
 import { isAuthenticated } from "../middleware/authenticationMiddleware.js";
+import multer from "multer";
+const upload = multer();
 
 const sneakerRouter = Router();
 
@@ -63,6 +66,11 @@ sneakerRouter.get(
   itemsListSearch
 );
 sneakerRouter.get("/admin/item-management", isAuthenticated, itemsListGet);
+sneakerRouter.get(
+  "/admin/item-management/data",
+  isAuthenticated,
+  itemsListGetJson
+);
 
 sneakerRouter.post(
   "/admin/item-management/add",
@@ -71,6 +79,7 @@ sneakerRouter.post(
 );
 sneakerRouter.post(
   "/admin/item-management/edit/:id",
+  upload.none(), // check if this needs to be added to edit category?
   isAuthenticated,
   itemsListEdit
 );

@@ -87,6 +87,29 @@ export const itemsListGet = async (req, res) => {
   }
 };
 
+export const itemsListGetJson = async (req, res) => {
+  const view = req.route.path === "/items" ? "items" : "itemManagement";
+
+  try {
+    const items = await db.getAllItems();
+    const categories = await db.getAllCategories();
+
+    if (items.length > 0) {
+      res.json({
+        success: true,
+        message: "Items returned successfully",
+        categories: categories,
+        items: items,
+      });
+    } else {
+      res.status(404).send("No items found.");
+    }
+  } catch (error) {
+    console.error("Error fetching items or categories:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export const itemsListSearch = async (req, res) => {
   const query = req.query.search || "";
 
@@ -123,6 +146,7 @@ export const itemsListEdit = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, brand, price, stock_quantity, category_id, size } = req.body;
+
     await db.editItem(
       id,
       name,
@@ -132,10 +156,19 @@ export const itemsListEdit = async (req, res) => {
       category_id,
       size
     );
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+    const items = await db.getAllItems();
+
+    res.json({
+      success: true,
+      message: "Item edited successfully",
+      categories: categories,
+      items: items,
+    });
   } catch (error) {
     console.error("Error editing item:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
@@ -143,10 +176,19 @@ export const itemsListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteItem(id);
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+    const items = await db.getAllItems();
+
+    res.json({
+      success: true,
+      message: "Item deleted successfully",
+      categories: categories,
+      items: items,
+    });
   } catch (error) {
     console.error("Error deleting item:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
