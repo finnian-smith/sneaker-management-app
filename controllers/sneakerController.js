@@ -135,7 +135,16 @@ export const itemsListPost = async (req, res) => {
   try {
     const { name, brand, price, stock_quantity, category_id, size } = req.body;
     await db.addItem(name, brand, price, stock_quantity, category_id, size);
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+    const items = await db.getAllItems();
+
+    res.json({
+      success: true,
+      message: "Item added successfully",
+      categories: categories,
+      items: items,
+    });
   } catch (error) {
     console.error("Error inserting item:", error);
     res.status(500).send("Internal Server Error");

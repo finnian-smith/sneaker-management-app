@@ -18,6 +18,7 @@
       <div class="d-flex justify-content-center">
         <button
           type="button"
+          id="add-item-form"
           class="btn btn-success my-5"
           data-bs-toggle="modal"
           data-bs-target="#addItemModal"
@@ -55,6 +56,9 @@
           </div>
         </div>
       </div>
+
+      <!-- add modal -->
+      <%- include('partials/addItemModal') %>
 
       <!-- Items Display -->
       <div class="container my-5" id="itemsContainer">

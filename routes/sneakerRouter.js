@@ -74,6 +74,7 @@ sneakerRouter.get(
 
 sneakerRouter.post(
   "/admin/item-management/add",
+  upload.none(), // will be needed for add category also?
   isAuthenticated,
   itemsListPost
 );
