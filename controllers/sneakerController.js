@@ -31,11 +31,37 @@ export const categoriesListGet = async (req, res) => {
   }
 };
 
+export const categoriesListGetJson = async (req, res) => {
+  try {
+    const categories = await db.getAllCategories();
+
+    if (categories.length > 0) {
+      res.json({
+        success: true,
+        message: "Categories returned successfully",
+        categories: categories,
+      });
+    } else {
+      res.status(404).send("No categories found.");
+    }
+  } catch (error) {
+    console.error("Error fetching items or categories:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export const categoriesListPost = async (req, res) => {
   try {
     const { name, description } = req.body;
     await db.addCategory(name, description);
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+
+    res.json({
+      success: true,
+      message: "Category added successfully",
+      categories: categories,
+    });
   } catch (error) {
     console.error("Error inserting category:", error);
     res.status(500).send("Internal Server Error");
@@ -47,7 +73,14 @@ export const categoriesListEdit = async (req, res) => {
     const { id } = req.params;
     const { name, description } = req.body;
     await db.editCategory(id, name, description);
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+
+    res.json({
+      success: true,
+      message: "Category edited successfully",
+      categories: categories,
+    });
   } catch (error) {
     console.error("Error editing category:", error);
     res.status(500).send("Internal Server Error");
@@ -58,7 +91,14 @@ export const categoriesListDelete = async (req, res) => {
   try {
     const { id } = req.params;
     await db.deleteCategory(id);
-    res.redirect("/admin");
+
+    const categories = await db.getAllCategories();
+
+    res.json({
+      success: true,
+      message: "Category deleted successfully",
+      categories: categories,
+    });
   } catch (error) {
     console.error("Error deleting category:", error);
     res.status(500).send("Internal Server Error");
@@ -88,8 +128,6 @@ export const itemsListGet = async (req, res) => {
 };
 
 export const itemsListGetJson = async (req, res) => {
-  const view = req.route.path === "/items" ? "items" : "itemManagement";
-
   try {
     const items = await db.getAllItems();
     const categories = await db.getAllCategories();

@@ -26,49 +26,12 @@
         </button>
       </div>
 
-      <div class="container my-5">
-        <div class="row">
-          <% categories.forEach((category) => { %>
-          <div class="col-md-4">
-            <div
-              class="card mb-4 shadow category-card <%= category.name.toLowerCase() %>-card"
-            >
-              <div class="overlay"></div>
-              <div class="card-body">
-                <h5 class="card-title"><%= category.name %></h5>
-                <p class="card-text"><%= category.description %></p>
-
-                <!-- edit trigger -->
-                <button
-                  class="btn btn-dark"
-                  data-bs-toggle="modal"
-                  data-bs-target="#editCategoryModal-<%= category.id %>"
-                >
-                  Edit
-                </button>
-
-                <!-- delete trigger -->
-                <button
-                  class="btn btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#deleteCategoryModal-<%= category.id %>"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- add modal -->
-          <%- include('partials/addCategoryModal') %>
-
-          <!-- edit modal -->
-          <%- include('partials/editCategoryModal', { category }) %>
-
-          <!-- delete modal -->
-          <%- include('partials/deleteCategoryModal', { category }) %> <% }) %>
-        </div>
+      <div class="container my-5" id="categoriesContainer">
+        <!-- rendered cards -->
       </div>
+
+      <!-- add modal -->
+      <%- include('partials/addCategoryModal') %>
 
       <div class="d-flex justify-content-center">
         <a href="/admin/logout" class="btn btn-outline-danger mt-2 mb-5"

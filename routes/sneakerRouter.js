@@ -14,6 +14,7 @@ import {
   adminPost,
   adminSessionDestroy,
   itemsListGetJson,
+  categoriesListGetJson,
 } from "../controllers/sneakerController.js";
 
 import { isAuthenticated } from "../middleware/authenticationMiddleware.js";
@@ -43,13 +44,20 @@ sneakerRouter.get(
   isAuthenticated,
   categoriesListGet
 );
+sneakerRouter.get(
+  "/admin/category-management/data",
+  isAuthenticated,
+  categoriesListGetJson
+);
 sneakerRouter.post(
   "/admin/category-management/add",
+  upload.none(),
   isAuthenticated,
   categoriesListPost
 );
 sneakerRouter.post(
   "/admin/category-management/edit/:id",
+  upload.none(),
   isAuthenticated,
   categoriesListEdit
 );
@@ -74,13 +82,13 @@ sneakerRouter.get(
 
 sneakerRouter.post(
   "/admin/item-management/add",
-  upload.none(), // will be needed for add category also?
+  upload.none(),
   isAuthenticated,
   itemsListPost
 );
 sneakerRouter.post(
   "/admin/item-management/edit/:id",
-  upload.none(), // check if this needs to be added to edit category?
+  upload.none(),
   isAuthenticated,
   itemsListEdit
 );

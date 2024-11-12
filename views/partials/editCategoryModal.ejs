@@ -22,6 +22,8 @@
         <form
           action="/admin/category-management/edit/<%= category.id %>"
           method="POST"
+          class="edit-category-form"
+          data-id="<%= category.id %>"
         >
           <div class="mb-3">
             <label for="categoryName" class="form-label">Category Name</label>

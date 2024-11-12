@@ -29,6 +29,8 @@
         <form
           action="/admin/category-management/delete/<%= category.id %>"
           method="POST"
+          class="delete-category-form"
+          data-id="<%= category.id %>"
         >
           <div class="mb-3">
             <input
