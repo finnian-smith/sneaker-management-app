@@ -71,40 +71,40 @@ function renderItems(items, categories) {
     itemRow.appendChild(itemElement);
   });
 
-  setupFormListeners();
+  setupItemFormListeners();
 }
 
 // clear and reattach form listeners
-function setupFormListeners() {
+function setupItemFormListeners() {
   // add item form listener
   const addItemForm = document.querySelector("#addItemModal form");
   if (addItemForm) {
-    addItemForm.removeEventListener("submit", handleAddSubmit);
-    addItemForm.addEventListener("submit", handleAddSubmit);
+    addItemForm.removeEventListener("submit", handleAddItemSubmit);
+    addItemForm.addEventListener("submit", handleAddItemSubmit);
   }
 
   // search form listener
   const searchForm = document.getElementById("searchForm");
   if (searchForm) {
-    searchForm.removeEventListener("submit", handleSearchSubmit);
-    searchForm.addEventListener("submit", handleSearchSubmit);
+    searchForm.removeEventListener("submit", handleSearchItemSubmit);
+    searchForm.addEventListener("submit", handleSearchItemSubmit);
   }
 
   // edit item form listeners
   document.querySelectorAll(".edit-item-form").forEach((form) => {
-    form.removeEventListener("submit", handleEditSubmit);
-    form.addEventListener("submit", handleEditSubmit);
+    form.removeEventListener("submit", handleEditItemSubmit);
+    form.addEventListener("submit", handleEditItemSubmit);
   });
 
   // delete item form listeners
   document.querySelectorAll(".delete-item-form").forEach((form) => {
-    form.removeEventListener("submit", handleDeleteSubmit);
-    form.addEventListener("submit", handleDeleteSubmit);
+    form.removeEventListener("submit", handleDeleteItemSubmit);
+    form.addEventListener("submit", handleDeleteItemSubmit);
   });
 }
 
 // handle add item form submission
-async function handleAddSubmit(event) {
+async function handleAddItemSubmit(event) {
   event.preventDefault();
 
   const addItemForm = event.target;
@@ -137,7 +137,7 @@ async function handleAddSubmit(event) {
 }
 
 // handle search form submission
-async function handleSearchSubmit(event) {
+async function handleSearchItemSubmit(event) {
   event.preventDefault();
 
   const query = document.getElementById("search").value.trim();
@@ -158,7 +158,7 @@ async function handleSearchSubmit(event) {
 }
 
 // handle edit item form submission
-async function handleEditSubmit(event) {
+async function handleEditItemSubmit(event) {
   event.preventDefault();
 
   const form = event.target;
@@ -188,7 +188,7 @@ async function handleEditSubmit(event) {
 }
 
 // handle delete item form submission
-async function handleDeleteSubmit(event) {
+async function handleDeleteItemSubmit(event) {
   event.preventDefault();
 
   const form = event.target;
@@ -250,4 +250,4 @@ function showNotification(message, type) {
 }
 
 // initialise form listeners
-setupFormListeners();
+setupItemFormListeners();
