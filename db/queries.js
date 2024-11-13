@@ -25,11 +25,11 @@ const db = {
     }
   },
 
-  async addCategory(name, description) {
+  async addCategory(name, description, image_url, tag_color) {
     try {
       await pool.query(
-        "INSERT INTO category (name, description) VALUES ($1, $2)",
-        [name, description]
+        "INSERT INTO category (name, description, image_url, tag_color) VALUES ($1, $2, $3, $4)",
+        [name, description, image_url, tag_color]
       );
     } catch (error) {
       console.error("Error inserting category:", error);
@@ -37,10 +37,10 @@ const db = {
     }
   },
 
-  async editCategory(id, name, description) {
+  async editCategory(id, name, description, image_url, tag_color) {
     try {
       const { rows } = await pool.query(
-        "SELECT name, description FROM category WHERE id = $1",
+        "SELECT name, description, image_url, tag_color FROM category WHERE id = $1",
         [id]
       );
 
@@ -51,10 +51,17 @@ const db = {
       const existingCategory = rows[0];
       const updatedName = name || existingCategory.name;
       const updatedDescription = description || existingCategory.description;
+      const updatedImageURL = image_url || existingCategory.image_url;
+      const updatedTagColor = tag_color || existingCategory.tag_color;
 
       await pool.query(
-        "UPDATE category SET name = $2, description = $3 WHERE id = $1",
-        [id, updatedName, updatedDescription]
+        `UPDATE category SET
+        name = $2,
+        description = $3,
+        image_url = $4,
+        tag_color = $5
+        WHERE id = $1`,
+        [id, updatedName, updatedDescription, updatedImageURL, updatedTagColor]
       );
     } catch (error) {
       console.error("Error updating category:", error);
@@ -75,7 +82,7 @@ const db = {
   async getAllItems(limit = 10, offset = 0) {
     try {
       const { rows } = await pool.query(
-        `SELECT item.*, category.name AS category_name
+        `SELECT item.*, category.name AS category_name, category.tag_color AS category_tag
         FROM item
         INNER JOIN category ON item.category_id = category.id
         LIMIT $1 OFFSET $2`,
@@ -90,7 +97,7 @@ const db = {
 
   async getItemsBySearch(query, limit = 10, offset = 0) {
     const sqlQuery = `
-    SELECT item.*, category.name AS category_name 
+    SELECT item.*, category.name AS category_name, category.tag_color AS category_tag
     FROM item 
     INNER JOIN category ON item.category_id = category.id 
     WHERE item.name ILIKE $1 
@@ -109,12 +116,20 @@ const db = {
     }
   },
 
-  async addItem(name, brand, price, stock_quantity, category_id, size) {
+  async addItem(
+    name,
+    brand,
+    price,
+    stock_quantity,
+    category_id,
+    size,
+    image_url
+  ) {
     try {
       await pool.query(
-        `INSERT INTO item (name, brand, price, stock_quantity, category_id, size)
-        VALUES ($1, $2, $3, $4, $5, $6)`,
-        [name, brand, price, stock_quantity, category_id, size]
+        `INSERT INTO item (name, brand, price, stock_quantity, category_id, size, image_url)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [name, brand, price, stock_quantity, category_id, size, image_url]
       );
     } catch (error) {
       console.error("Error inserting item:", error);
@@ -122,7 +137,16 @@ const db = {
     }
   },
 
-  async editItem(id, name, brand, price, stock_quantity, category_id, size) {
+  async editItem(
+    id,
+    name,
+    brand,
+    price,
+    stock_quantity,
+    category_id,
+    size,
+    image_url
+  ) {
     try {
       const { rows } = await pool.query("SELECT * FROM item WHERE id = $1", [
         id,
@@ -139,6 +163,7 @@ const db = {
       const updatedStock = stock_quantity || existingItem.stock_quantity;
       const updatedCategoryId = category_id || existingItem.category_id;
       const updatedSize = size || existingItem.size;
+      const updatedImageURL = image_url || existingItem.image_url;
 
       await pool.query(
         `UPDATE item SET
@@ -147,7 +172,8 @@ const db = {
         price = $4,
         stock_quantity = $5,
         category_id = $6,
-        size = $7
+        size = $7,
+        image_url = $8
         WHERE id = $1`,
         [
           id,
@@ -157,6 +183,7 @@ const db = {
           updatedStock,
           updatedCategoryId,
           updatedSize,
+          updatedImageURL,
         ]
       );
     } catch (error) {
