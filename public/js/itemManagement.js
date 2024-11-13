@@ -146,9 +146,11 @@ async function handleSearchItemSubmit(event) {
     const response = await fetch(
       `/admin/item-management/search?search=${encodeURIComponent(query)}`
     );
+
     if (!response.ok) throw new Error("Failed to fetch search results");
 
     const data = await response.json();
+
     renderItems(data.items, data.categories);
   } catch (error) {
     console.error("Error fetching items:", error);

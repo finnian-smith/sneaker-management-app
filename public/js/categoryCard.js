@@ -1,6 +1,8 @@
 export function createCategoryCard(category) {
   return `
-      <div class="card mb-4 shadow category-card ${category.name.toLowerCase()}-card">
+      <div
+          class="card mb-4 shadow category-card ${category.name.toLowerCase()}-card"
+          style="background-image: url(${category.image_url})">
         <div class="overlay"></div>
         <div class="card-body">
           <h5 class="card-title">${category.name}</h5>
@@ -45,6 +47,16 @@ export function createEditCategoryModal(category) {
                 <div class="mb-3">
                   <label for="categoryDescription-${category.id}" class="form-label">Description</label>
                   <input type="text" class="form-control" name="description" id="categoryDescription-${category.id}" value="${category.description}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label for="image_url" class="form-label">Image URL</label>
+                  <input type="text" name="image_url" id="categoryImageURL-${category.id}" value="${category.image_url}" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                  <label for="tag_color" class="form-label">Tag Color</label>
+                  <input type="color" name="tag_color" id="categoryTagColor-${category.id}" value="${category.tag_color}" class="form-control" required />
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Submit Edit</button>

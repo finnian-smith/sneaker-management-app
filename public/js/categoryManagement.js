@@ -114,6 +114,7 @@ async function handleAddCategorySubmit(event) {
     if (!response.ok) throw new Error("Failed to add category");
 
     const data = await response.json();
+
     if (data.success) {
       renderCategories(data.categories);
       showNotification(data.message, "success");

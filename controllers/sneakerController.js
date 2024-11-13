@@ -51,9 +51,10 @@ export const categoriesListGetJson = async (req, res) => {
 };
 
 export const categoriesListPost = async (req, res) => {
+  console.log(req.body);
   try {
-    const { name, description } = req.body;
-    await db.addCategory(name, description);
+    const { name, description, image_url, tag_color } = req.body;
+    await db.addCategory(name, description, image_url, tag_color);
 
     const categories = await db.getAllCategories();
 
@@ -71,8 +72,8 @@ export const categoriesListPost = async (req, res) => {
 export const categoriesListEdit = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description } = req.body;
-    await db.editCategory(id, name, description);
+    const { name, description, image_url, tag_color } = req.body;
+    await db.editCategory(id, name, description, image_url, tag_color);
 
     const categories = await db.getAllCategories();
 
@@ -171,8 +172,17 @@ export const itemsListSearch = async (req, res) => {
 
 export const itemsListPost = async (req, res) => {
   try {
-    const { name, brand, price, stock_quantity, category_id, size } = req.body;
-    await db.addItem(name, brand, price, stock_quantity, category_id, size);
+    const { name, brand, price, stock_quantity, category_id, size, image_url } =
+      req.body;
+    await db.addItem(
+      name,
+      brand,
+      price,
+      stock_quantity,
+      category_id,
+      size,
+      image_url
+    );
 
     const categories = await db.getAllCategories();
     const items = await db.getAllItems();
@@ -192,7 +202,8 @@ export const itemsListPost = async (req, res) => {
 export const itemsListEdit = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, brand, price, stock_quantity, category_id, size } = req.body;
+    const { name, brand, price, stock_quantity, category_id, size, image_url } =
+      req.body;
 
     await db.editItem(
       id,
@@ -201,7 +212,8 @@ export const itemsListEdit = async (req, res) => {
       price,
       stock_quantity,
       category_id,
-      size
+      size,
+      image_url
     );
 
     const categories = await db.getAllCategories();

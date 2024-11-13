@@ -47,6 +47,29 @@
               required
             />
           </div>
+
+          <div class="mb-3">
+            <label for="categoryImageURL" class="form-label">Image URL</label>
+            <input
+              type="text"
+              class="form-control"
+              name="image_url"
+              value="<%= category.image_url %>"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="categoryTagColor" class="form-label">Tag Color</label>
+            <input
+              type="color"
+              class="form-control"
+              name="tag_color"
+              value="<%= category.tag_color %>"
+              required
+            />
+          </div>
+
           <button type="submit" class="btn btn-primary">Submit Edit</button>
         </form>
       </div>

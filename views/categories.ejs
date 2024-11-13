@@ -22,7 +22,8 @@
           <% categories.forEach((category) => { %>
           <div class="col-md-4">
             <div
-              class="card mb-4 shadow category-card <%= category.name.toLowerCase() %>-card"
+              class="card mb-4 shadow category-card"
+              style="background-image: url('<%= category.image_url %>')"
             >
               <div class="overlay"></div>
               <div class="card-body">

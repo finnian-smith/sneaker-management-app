@@ -47,8 +47,6 @@
   color: white;
   width: fit-content;
   font-size: 0.6rem;
-  /* background-color to change via inline style */
-  background-color: blue;
 }
 
 @media screen and (min-width: 991px) {

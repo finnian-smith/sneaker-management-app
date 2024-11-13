@@ -3,11 +3,15 @@ export function createItemCard(item) {
     <div class="card mb-3 item-card">
       <div class="row g-0">
         <div class="col-md-6">
-          <img src="https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/e7669ab1-f716-428a-b8c3-ddc47d18b68c/NIKE+AIR+MAX+1.png" class="img-fluid rounded-start" alt="${item.name}" />
+          <img src="${item.image_url}" alt="${item.name}" />
         </div>
         <div class="col-md-6">
           <div class="card-body">
-            <p class="card-text category-tag">${item.category_name}</p>
+            <p class="card-text category-tag"
+               style="background-color: ${item.category_tag}"
+            >
+               ${item.category_name}
+            </p>
             <h5 class="card-title">${item.name}</h5>
             <p class="card-text">${item.brand}</p>
             <p class="card-text">€${item.price}</p>
@@ -106,6 +110,15 @@ export function createEditItemModal(item, categories) {
                   <input type="text" class="form-control" name="size" id="itemSize-${
                     item.id
                   }" value="${item.size}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label for="itemImageURL-${
+                    item.id
+                  }" class="form-label">Image URL</label>
+                  <input type="text" class="form-control" name="imageURL" id="itemImageURL-${
+                    item.id
+                  }" value="${item.image_url}" required />
                 </div>
   
                 <button type="submit" class="btn btn-primary">Submit Edit</button>
