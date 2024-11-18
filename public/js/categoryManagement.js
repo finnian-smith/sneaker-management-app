@@ -169,6 +169,24 @@ async function handleDeleteCategorySubmit(event) {
   const form = event.target;
   const formData = new FormData(form);
 
+  const enteredName = formData.get("confirmationName")?.trim();
+  const expectedName = form.dataset.categoryName;
+
+  let errorMessage = form.querySelector(".error-message");
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+
+  if (enteredName !== expectedName) {
+    errorMessage = document.createElement("p");
+    errorMessage.textContent = "Entered name does not match the category name.";
+    errorMessage.className = "error-message text-danger mt-2";
+
+    const inputField = form.querySelector('input[name="confirmationName"]');
+    inputField.insertAdjacentElement("afterend", errorMessage);
+    return;
+  }
+
   try {
     const response = await fetch(form.action, {
       method: form.method,

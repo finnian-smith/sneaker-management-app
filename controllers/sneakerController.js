@@ -51,7 +51,6 @@ export const categoriesListGetJson = async (req, res) => {
 };
 
 export const categoriesListPost = async (req, res) => {
-  console.log(req.body);
   try {
     const { name, description, image_url, tag_color } = req.body;
     await db.addCategory(name, description, image_url, tag_color);
@@ -91,6 +90,17 @@ export const categoriesListEdit = async (req, res) => {
 export const categoriesListDelete = async (req, res) => {
   try {
     const { id } = req.params;
+    const { confirmationName } = req.body;
+
+    const category = await db.getCategoryById(id);
+
+    if (category.name !== confirmationName) {
+      return res.status(400).json({
+        success: false,
+        message: "Entered name does not match the category name.",
+      });
+    }
+
     await db.deleteCategory(id);
 
     const categories = await db.getAllCategories();

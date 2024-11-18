@@ -63,6 +63,7 @@ sneakerRouter.post(
 );
 sneakerRouter.post(
   "/admin/category-management/delete/:id",
+  upload.none(),
   isAuthenticated,
   categoriesListDelete
 );

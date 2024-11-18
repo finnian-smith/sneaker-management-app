@@ -83,7 +83,13 @@ export function createDeleteCategoryModal(category) {
               <p>
                 Are you sure you want to delete this category? Enter the category name "${category.name}" to confirm:
               </p>
-              <form action="/admin/category-management/delete/${category.id}" method="POST" class="delete-category-form" data-id="${category.id}">
+              <form
+                action="/admin/category-management/delete/${category.id}"
+                method="POST"
+                class="delete-category-form"
+                data-id="${category.id}"
+                data-category-name="${category.name}"
+              >
                 <div class="mb-3">
                   <input
                     type="text"
