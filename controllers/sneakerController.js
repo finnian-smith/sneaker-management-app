@@ -244,6 +244,17 @@ export const itemsListEdit = async (req, res) => {
 export const itemsListDelete = async (req, res) => {
   try {
     const { id } = req.params;
+    const { confirmationName } = req.body;
+
+    const item = await db.getItemById(id);
+
+    if (item.name !== confirmationName) {
+      return res.status(400).json({
+        success: false,
+        message: "Entered name does not match the item name.",
+      });
+    }
+
     await db.deleteItem(id);
 
     const categories = await db.getAllCategories();

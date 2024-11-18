@@ -95,6 +95,7 @@ sneakerRouter.post(
 );
 sneakerRouter.post(
   "/admin/item-management/delete/:id",
+  upload.none(),
   isAuthenticated,
   itemsListDelete
 );

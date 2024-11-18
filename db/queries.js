@@ -95,6 +95,18 @@ const db = {
     }
   },
 
+  async getItemById(id) {
+    try {
+      const { rows } = await pool.query(`SELECT * FROM item WHERE id = $1`, [
+        id,
+      ]);
+      return rows[0];
+    } catch (error) {
+      console.error("Error fetching item:", error);
+      throw new Error("Could not fetch item");
+    }
+  },
+
   async getItemsBySearch(query, limit = 10, offset = 0) {
     const sqlQuery = `
     SELECT item.*, category.name AS category_name, category.tag_color AS category_tag

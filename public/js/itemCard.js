@@ -145,7 +145,13 @@ export function createDeleteItemModal(item) {
               <p>
                 Are you sure you want to delete this item? Enter the item name "${item.name}" to confirm:
               </p>
-              <form action="/admin/item-management/delete/${item.id}" method="POST" class="delete-item-form" data-id="${item.id}">
+              <form
+                action="/admin/item-management/delete/${item.id}"
+                method="POST"
+                class="delete-item-form"
+                data-id="${item.id}"
+                data-item-name="${item.name}"
+              >
                 <div class="mb-3">
                   <input
                     type="text"
