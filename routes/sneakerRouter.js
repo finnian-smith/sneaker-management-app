@@ -15,6 +15,7 @@ import {
   adminSessionDestroy,
   itemsListGetJson,
   categoriesListGetJson,
+  itemsListCategory,
 } from "../controllers/sneakerController.js";
 
 import { isAuthenticated } from "../middleware/authenticationMiddleware.js";
@@ -28,7 +29,7 @@ sneakerRouter.get("/", homepageGet);
 
 // categories
 sneakerRouter.get("/categories", categoriesListGet);
-sneakerRouter.get("/categories/:id", itemsListGet);
+sneakerRouter.get("/categories/:id", itemsListCategory);
 
 // items
 sneakerRouter.get("/items", itemsListGet);

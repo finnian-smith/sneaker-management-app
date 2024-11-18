@@ -159,6 +159,33 @@ export const itemsListGetJson = async (req, res) => {
   }
 };
 
+export const itemsListCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const category = await db.getCategoryById(id);
+
+    if (!category) {
+      return res.status(400).send("Category not found.");
+    }
+
+    const items = await db.getItemsByCategoryId(id);
+
+    if (items.length > 0) {
+      res.render("items", {
+        title: `${category.name} Items`,
+        items: items,
+        category: category,
+      });
+    } else {
+      res.status(404).send("No items found for this category.");
+    }
+  } catch (error) {
+    console.error("Error fetching items by category:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export const itemsListSearch = async (req, res) => {
   const query = req.query.search || "";
 
