@@ -4,6 +4,8 @@ import {
   createDeleteItemModal,
 } from "./itemCard.js";
 
+import { sessionValidation } from "./sessionCheck.js";
+
 const itemTab = document.getElementById("item-tab");
 
 // initialise listeners only once for "item-tab" shown event
@@ -20,7 +22,7 @@ async function loadItemContent() {
   try {
     // fetch item management page
     const response = await fetch("/admin/item-management");
-    if (!response.ok) throw new Error("Failed to load content");
+    await sessionValidation(response);
 
     // load fetched HTML content
     document.getElementById("item-content").innerHTML = await response.text();
@@ -116,7 +118,8 @@ async function handleAddItemSubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to add item");
+    // if (!response.ok) throw new Error("Failed to add item");
+    await sessionValidation(response);
 
     const data = await response.json();
     if (data.success) {
@@ -147,7 +150,8 @@ async function handleSearchItemSubmit(event) {
       `/admin/item-management/search?search=${encodeURIComponent(query)}`
     );
 
-    if (!response.ok) throw new Error("Failed to fetch search results");
+    // if (!response.ok) throw new Error("Failed to fetch search results");
+    await sessionValidation(response);
 
     const data = await response.json();
 
@@ -172,7 +176,8 @@ async function handleEditItemSubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to edit item");
+    // if (!response.ok) throw new Error("Failed to edit item");
+    await sessionValidation(response);
 
     const data = await response.json();
     if (data.success) {
@@ -220,7 +225,8 @@ async function handleDeleteItemSubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to delete item");
+    // if (!response.ok) throw new Error("Failed to delete item");
+    await sessionValidation(response);
 
     const data = await response.json();
     if (data.success) {

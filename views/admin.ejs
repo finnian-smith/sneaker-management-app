@@ -116,5 +116,13 @@
     <script src="/js/modalUtils.js"></script>
     <script type="module" src="/js/categoryManagement.js"></script>
     <script type="module" src="/js/itemManagement.js"></script>
+
+    <script type="module">
+      import { sessionExpiredNotification } from "/js/sessionCheck.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        sessionExpiredNotification();
+      });
+    </script>
   </body>
 </html>

@@ -4,6 +4,8 @@ import {
   createDeleteCategoryModal,
 } from "./categoryCard.js";
 
+import { sessionValidation } from "./sessionCheck.js";
+
 const categoryTab = document.getElementById("category-tab");
 
 // initialise listeners only once for "category-tab" shown event
@@ -22,7 +24,7 @@ async function loadCategoryContent() {
   try {
     // fetch category management page
     const response = await fetch("/admin/category-management");
-    if (!response.ok) throw new Error("Failed to load content");
+    await sessionValidation(response);
 
     // load fetched HTML content
     document.getElementById("category-content").innerHTML =
@@ -111,7 +113,8 @@ async function handleAddCategorySubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to add category");
+    // if (!response.ok) throw new Error("Failed to add category");
+    await sessionValidation(response);
 
     const data = await response.json();
 
@@ -145,7 +148,8 @@ async function handleEditCategorySubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to edit category");
+    // if (!response.ok) throw new Error("Failed to edit category");
+    await sessionValidation(response);
 
     const data = await response.json();
     if (data.success) {
@@ -193,7 +197,8 @@ async function handleDeleteCategorySubmit(event) {
       body: formData,
     });
 
-    if (!response.ok) throw new Error("Failed to delete category");
+    // if (!response.ok) throw new Error("Failed to delete category");
+    await sessionValidation(response);
 
     const data = await response.json();
     if (data.success) {

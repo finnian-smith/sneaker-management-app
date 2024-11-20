@@ -316,7 +316,7 @@ export const adminGet = async (req, res) => {
       res.render("admin", {
         title: "Admin Login",
         isAdmin: false,
-        categories: categories,
+        // categories: categories,
       });
     }
   } catch (error) {
