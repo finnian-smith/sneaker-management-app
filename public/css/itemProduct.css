@@ -1,0 +1,115 @@
+.item-product-card {
+  display: flex;
+  max-height: 100%;
+}
+
+.item-product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-product-card .card-body {
+  padding: 20px;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: repeat(6, minmax(auto, max-content));
+  row-gap: 10px;
+  height: 100%;
+}
+
+.item-product-card .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: black;
+}
+
+.item-product-card .card-text {
+  font-size: 1rem;
+  color: black;
+}
+
+.item-product-card .card-text:nth-child(4) {
+  font-weight: 600;
+}
+
+.item-product-card .category-tag {
+  border-radius: 20px;
+  padding: 2px 5px;
+  color: white;
+  width: fit-content;
+  font-size: 0.6rem;
+}
+
+.btn-container.search-product-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-container a {
+  width: 200px;
+}
+
+.stock-x-button {
+  background-color: #04633c;
+  color: #ffffff;
+}
+
+.stock-x-button:hover {
+  background-color: #ffffff;
+  color: #04633c;
+  border: 1px solid #04633c;
+}
+
+.goat-button {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.goat-button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+}
+
+.flight-club-button {
+  background-color: #ec1a22;
+  color: #ffffff;
+}
+
+.flight-club-button:hover {
+  background-color: #ffffff;
+  color: #ec1a22;
+  border: 1px solid #ec1a22;
+}
+
+.stadium-goods-button {
+  background-color: #8a8b8b;
+  color: #ffffff;
+}
+
+.stadium-goods-button:hover {
+  background-color: #ffffff;
+  color: #8a8b8b;
+  border: 1px solid #8a8b8b;
+}
+
+@media screen and (min-width: 992px) {
+  .item-product-card {
+    max-width: 80%;
+    margin: auto;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .item-product-card {
+    max-width: 70%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .item-product-card {
+    max-width: 60%;
+  }
+}

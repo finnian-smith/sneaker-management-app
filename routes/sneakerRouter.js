@@ -16,6 +16,7 @@ import {
   itemsListGetJson,
   categoriesListGetJson,
   itemsListCategory,
+  itemsListGetById,
 } from "../controllers/sneakerController.js";
 
 import { isAuthenticated } from "../middleware/authenticationMiddleware.js";
@@ -33,6 +34,7 @@ sneakerRouter.get("/categories/:id", itemsListCategory);
 
 // items
 sneakerRouter.get("/items", itemsListGet);
+sneakerRouter.get("/items/:id", itemsListGetById);
 
 // admin
 sneakerRouter.get("/admin", adminGet);

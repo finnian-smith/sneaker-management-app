@@ -159,6 +159,25 @@ export const itemsListGetJson = async (req, res) => {
   }
 };
 
+export const itemsListGetById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const item = await db.getItemById(id);
+
+    if (item) {
+      res.render("itemProduct", {
+        title: item.name,
+        item: item,
+      });
+    } else {
+      res.status(404).send("No item found.");
+    }
+  } catch (error) {
+    console.error("Error fetching item:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 export const itemsListCategory = async (req, res) => {
   try {
     const { id } = req.params;

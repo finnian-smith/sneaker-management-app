@@ -97,9 +97,13 @@ const db = {
 
   async getItemById(id) {
     try {
-      const { rows } = await pool.query(`SELECT * FROM item WHERE id = $1`, [
-        id,
-      ]);
+      const { rows } = await pool.query(
+        `SELECT item.*, category.name AS category_name, category.tag_color AS category_tag
+        FROM item
+        INNER JOIN category ON item.category_id = category.id
+        WHERE item.id = $1`,
+        [id]
+      );
       return rows[0];
     } catch (error) {
       console.error("Error fetching item:", error);
