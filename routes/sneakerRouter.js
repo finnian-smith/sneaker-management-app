@@ -34,6 +34,7 @@ sneakerRouter.get("/categories/:id", itemsListCategory);
 
 // items
 sneakerRouter.get("/items", itemsListGet);
+sneakerRouter.get("/items/search", itemsListSearch);
 sneakerRouter.get("/items/:id", itemsListGetById);
 
 // admin
