@@ -36,7 +36,7 @@ async function loadItemContent() {
 
     // render items if itemsContainer is available
     if (itemsContainer) {
-      renderItems(data.items, data.categories);
+      renderItems(data.items, data.categories, { isAdmin: true });
     } else {
       console.error("itemsContainer not found");
     }
@@ -48,7 +48,7 @@ async function loadItemContent() {
 }
 
 // render items and setup modals dynamically
-function renderItems(items, categories) {
+function renderItems(items, categories, options = { isAdmin: false }) {
   const itemsContainer = document.getElementById("itemsContainer");
   itemsContainer.innerHTML = "";
 
@@ -66,10 +66,10 @@ function renderItems(items, categories) {
     itemElement.classList.add("col-md-12", "col-lg-6", "d-flex");
 
     itemElement.innerHTML = `
-        ${createItemCard(item)}
-        ${createEditItemModal(item, categories)}
-        ${createDeleteItemModal(item)}
-      `;
+          ${createItemCard(item, options)}
+          ${options.isAdmin ? createEditItemModal(item, categories) : ""}
+          ${options.isAdmin ? createDeleteItemModal(item) : ""}
+        `;
     itemRow.appendChild(itemElement);
   });
 
@@ -123,7 +123,7 @@ async function handleAddItemSubmit(event) {
 
     const data = await response.json();
     if (data.success) {
-      renderItems(data.items, data.categories);
+      renderItems(data.items, data.categories, { isAdmin: true });
       showNotification(data.message, "success");
     } else {
       showNotification("Failed to add item", "danger");
@@ -155,7 +155,7 @@ async function handleSearchItemSubmit(event) {
 
     const data = await response.json();
 
-    renderItems(data.items, data.categories);
+    renderItems(data.items, data.categories, { isAdmin: true });
   } catch (error) {
     console.error("Error fetching items:", error);
     document.getElementById("itemsContainer").innerHTML =
@@ -181,7 +181,7 @@ async function handleEditItemSubmit(event) {
 
     const data = await response.json();
     if (data.success) {
-      renderItems(data.items, data.categories);
+      renderItems(data.items, data.categories, { isAdmin: true });
       showNotification(data.message, "success");
     } else {
       showNotification("Failed to edit item", "danger");
@@ -230,7 +230,7 @@ async function handleDeleteItemSubmit(event) {
 
     const data = await response.json();
     if (data.success) {
-      renderItems(data.items, data.categories);
+      renderItems(data.items, data.categories, { isAdmin: true });
       showNotification(data.message, "success");
     } else {
       showNotification("Failed to delete item", "danger");

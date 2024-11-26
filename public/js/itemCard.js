@@ -1,4 +1,4 @@
-export function createItemCard(item) {
+export function createItemCard(item, options = { isAdmin: false }) {
   return `
     <div class="card mb-3 item-card">
       <div class="row g-0">
@@ -16,11 +16,19 @@ export function createItemCard(item) {
             <p class="card-text">${item.brand}</p>
             <p class="card-text">€${item.price}</p>
             <p class="card-text">
-              <small class="text-body-secondary">Available Sizes: ${item.size}</small>
+              <small class="text-body-secondary">Available Sizes: ${
+                item.size
+              }</small>
             </p>
             <div class="btn-container">
-              <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editItemModal-${item.id}">Edit</button>
-              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal-${item.id}">Delete</button>
+              ${
+                options.isAdmin
+                  ? `
+                  <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#editItemModal-${item.id}">Edit</button>
+                  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal-${item.id}">Delete</button>
+                  `
+                  : `<a href="/items/${item.id}" class="btn btn-dark">View Details</a>`
+              }
             </div>
           </div>
         </div>
