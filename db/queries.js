@@ -18,9 +18,12 @@ const db = {
         `SELECT * FROM category WHERE id = $1`,
         [id]
       );
+      if (rows.length === 0) {
+        throw new Error("Category not found");
+      }
       return rows[0];
     } catch (error) {
-      console.error("Error fetching category:", error);
+      console.error("Error fetching category by ID:", error);
       throw new Error("Could not fetch category");
     }
   },
@@ -39,20 +42,11 @@ const db = {
 
   async editCategory(id, name, description, image_url, tag_color) {
     try {
-      const { rows } = await pool.query(
-        "SELECT name, description, image_url, tag_color FROM category WHERE id = $1",
-        [id]
-      );
+      const existingCategory = await this.getCategoryById(id);
 
-      if (rows.length === 0) {
+      if (!existingCategory) {
         throw new Error("Category not found");
       }
-
-      const existingCategory = rows[0];
-      const updatedName = name || existingCategory.name;
-      const updatedDescription = description || existingCategory.description;
-      const updatedImageURL = image_url || existingCategory.image_url;
-      const updatedTagColor = tag_color || existingCategory.tag_color;
 
       await pool.query(
         `UPDATE category SET
@@ -61,7 +55,13 @@ const db = {
         image_url = $4,
         tag_color = $5
         WHERE id = $1`,
-        [id, updatedName, updatedDescription, updatedImageURL, updatedTagColor]
+        [
+          id,
+          name || existingCategory.name,
+          description || existingCategory.description,
+          image_url || existingCategory.image_url,
+          tag_color || existingCategory.tag_color,
+        ]
       );
     } catch (error) {
       console.error("Error updating category:", error);
@@ -104,9 +104,12 @@ const db = {
         WHERE item.id = $1`,
         [id]
       );
+      if (rows.length === 0) {
+        throw new Error("Item not found");
+      }
       return rows[0];
     } catch (error) {
-      console.error("Error fetching item:", error);
+      console.error("Error fetching item by ID:", error);
       throw new Error("Could not fetch item");
     }
   },
@@ -114,12 +117,15 @@ const db = {
   async getItemsByCategoryId(id) {
     try {
       const { rows } = await pool.query(
-        `SELECT * FROM item WHERE category_id = $1`,
+        `SELECT item.*, category.name AS category_name, category.tag_color AS category_tag
+        FROM item
+        INNER JOIN category ON item.category_id = category.id
+        WHERE category_id = $1`,
         [id]
       );
       return rows;
     } catch (error) {
-      console.error("Error fetching items:", error);
+      console.error("Error fetching items by category ID:", error);
       throw new Error("Could not fetch items");
     }
   },
@@ -177,22 +183,11 @@ const db = {
     image_url
   ) {
     try {
-      const { rows } = await pool.query("SELECT * FROM item WHERE id = $1", [
-        id,
-      ]);
+      const existingItem = await this.getItemById(id);
 
-      if (rows.length === 0) {
+      if (!existingItem) {
         throw new Error("Item not found");
       }
-
-      const existingItem = rows[0];
-      const updatedName = name || existingItem.name;
-      const updatedBrand = brand || existingItem.brand;
-      const updatedPrice = price || existingItem.price;
-      const updatedStock = stock_quantity || existingItem.stock_quantity;
-      const updatedCategoryId = category_id || existingItem.category_id;
-      const updatedSize = size || existingItem.size;
-      const updatedImageURL = image_url || existingItem.image_url;
 
       await pool.query(
         `UPDATE item SET
@@ -206,13 +201,13 @@ const db = {
         WHERE id = $1`,
         [
           id,
-          updatedName,
-          updatedBrand,
-          updatedPrice,
-          updatedStock,
-          updatedCategoryId,
-          updatedSize,
-          updatedImageURL,
+          name || existingItem.name,
+          brand || existingItem.brand,
+          price || existingItem.price,
+          stock_quantity || existingItem.stock_quantity,
+          category_id || existingItem.category_id,
+          size || existingItem.size,
+          image_url || existingItem.image_url,
         ]
       );
     } catch (error) {
