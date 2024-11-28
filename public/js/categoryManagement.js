@@ -3,7 +3,11 @@ import {
   createEditCategoryModal,
   createDeleteCategoryModal,
 } from "./categoryCard.js";
-
+import {
+  fetchTabData,
+  cleanUpModalBackdrops,
+  showNotification,
+} from "./managementUtils.js";
 import { sessionValidation } from "./sessionCheck.js";
 
 const categoryTab = document.getElementById("category-tab");
@@ -22,20 +26,8 @@ async function loadCategoryContent() {
   cleanUpModalBackdrops();
 
   try {
-    // fetch category management page
-    const response = await fetch("/admin/category-management");
-    await sessionValidation(response);
-
-    // load fetched HTML content
-    document.getElementById("category-content").innerHTML =
-      await response.text();
-
-    // fetch data for categories
-    const dataResponse = await fetch("/admin/category-management/data");
-    if (!dataResponse.ok) throw new Error("Failed to load categories");
-
-    const data = await dataResponse.json();
-    const categoriesContainer = document.getElementById("categoriesContainer");
+    const data = await fetchTabData("category", "/admin/category-management");
+    const categoriesContainer = document.querySelector("#categoriesContainer");
 
     // render items if categoriesContainer is available
     if (categoriesContainer) {
@@ -216,38 +208,6 @@ async function handleDeleteCategorySubmit(event) {
   } finally {
     cleanUpModalBackdrops();
   }
-}
-
-// clean up modal backdrops
-function cleanUpModalBackdrops() {
-  document
-    .querySelectorAll(".modal-backdrop")
-    .forEach((backdrop) => backdrop.remove());
-  document.body.classList.remove("modal-open");
-  document.body.style.paddingRight = "";
-  document.body.style.overflow = "";
-}
-
-// display notification
-function showNotification(message, type) {
-  const alertContainer = document.createElement("div");
-  alertContainer.className = `alert alert-${type} alert-dismissible fade show`;
-  alertContainer.role = "alert";
-  alertContainer.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      `;
-
-  document
-    .getElementById("adminTabs")
-    .insertAdjacentElement("beforebegin", alertContainer);
-
-  setTimeout(() => {
-    alertContainer.classList.remove("show");
-    alertContainer.addEventListener("transitionend", () =>
-      alertContainer.remove()
-    );
-  }, 3000);
 }
 
 // initialise form listeners

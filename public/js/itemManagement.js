@@ -3,7 +3,11 @@ import {
   createEditItemModal,
   createDeleteItemModal,
 } from "./itemCard.js";
-
+import {
+  fetchTabData,
+  cleanUpModalBackdrops,
+  showNotification,
+} from "./managementUtils.js";
 import { sessionValidation } from "./sessionCheck.js";
 
 const itemTab = document.getElementById("item-tab");
@@ -20,19 +24,8 @@ async function loadItemContent() {
   cleanUpModalBackdrops();
 
   try {
-    // fetch item management page
-    const response = await fetch("/admin/item-management");
-    await sessionValidation(response);
-
-    // load fetched HTML content
-    document.getElementById("item-content").innerHTML = await response.text();
-
-    // fetch data for items
-    const dataResponse = await fetch("/admin/item-management/data");
-    if (!dataResponse.ok) throw new Error("Failed to load items");
-
-    const data = await dataResponse.json();
-    const itemsContainer = document.getElementById("itemsContainer");
+    const data = await fetchTabData("item", "/admin/item-management");
+    const itemsContainer = document.querySelector("#itemsContainer");
 
     // render items if itemsContainer is available
     if (itemsContainer) {
@@ -86,7 +79,7 @@ function setupItemFormListeners() {
   }
 
   // search form listener
-  const searchForm = document.getElementById("searchForm");
+  const searchForm = document.querySelector("#searchForm");
   if (searchForm) {
     searchForm.removeEventListener("submit", handleSearchItemSubmit);
     searchForm.addEventListener("submit", handleSearchItemSubmit);
@@ -241,38 +234,6 @@ async function handleDeleteItemSubmit(event) {
   } finally {
     cleanUpModalBackdrops();
   }
-}
-
-// clean up modal backdrops
-function cleanUpModalBackdrops() {
-  document
-    .querySelectorAll(".modal-backdrop")
-    .forEach((backdrop) => backdrop.remove());
-  document.body.classList.remove("modal-open");
-  document.body.style.paddingRight = "";
-  document.body.style.overflow = "";
-}
-
-// display notification
-function showNotification(message, type) {
-  const alertContainer = document.createElement("div");
-  alertContainer.className = `alert alert-${type} alert-dismissible fade show`;
-  alertContainer.role = "alert";
-  alertContainer.innerHTML = `
-      ${message}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-
-  document
-    .getElementById("adminTabs")
-    .insertAdjacentElement("beforebegin", alertContainer);
-
-  setTimeout(() => {
-    alertContainer.classList.remove("show");
-    alertContainer.addEventListener("transitionend", () =>
-      alertContainer.remove()
-    );
-  }, 3000);
 }
 
 // initialise form listeners
